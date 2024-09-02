@@ -11,6 +11,7 @@ import Profile from "./routes/Profile";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import Error from "./routes/Error";
+import Registration from "./routes/Registration";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "registration",
+        element: <Registration />,
       },
     ],
   },

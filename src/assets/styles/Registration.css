@@ -1,0 +1,10 @@
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: white;
+  border-radius: 50%;
+  margin: 0 5px 0 0;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
