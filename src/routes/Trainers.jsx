@@ -58,19 +58,19 @@ const reviewData = [
   {
     img: one,
     result: ["Improved strength and fitness", "1 kg muscle mass gained"],
-    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had adefined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
+    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had a defined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
     poster: "Stefan stark",
   },
   {
     img: two,
     result: ["Improved strength and fitness", "1 kg muscle mass gained"],
-    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had adefined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
+    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had a defined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
     poster: "Aslik Thors",
   },
   {
     img: three,
     result: ["Improved strength and fitness", "1 kg muscle mass gained"],
-    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had adefined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
+    desc: "Stefen Stark achieved impressive results by gaining 1 kg of muscle mass. Before starting his tailored training program, Stefen had a defined yet lean physique. After diligently following the programand applying expert guidance, he successfully increased his musclemass by 1 kg, showcasing enhanced muscle definition and overall strength.",
     poster: "Brian Stark",
   },
 ];
@@ -152,25 +152,25 @@ const Trainers = () => {
       </section>
       {/* -------- -------- REVIEW SECTION -------- -------- */}
       <section className="bg-gradient-to-t from-[#454545] via-[#969696] to-[#D9D9D9] pb-[11.5%]">
-        <h2 className="pb-[1em] pt-[1.5em] text-center font-extrabold uppercase text-black sm:pt-[0.6em] sm:text-[28px] md:text-[36px]">
+        <h2 className="pb-[1em] pt-[1.5em] text-center font-extrabold uppercase text-black sm:pt-[0.6em] sm:text-[28px] md:text-[36px] xl:pb-[2.2em] xl:text-[46px] 2xl:text-[58px]">
           Success <span className="text-primary">story</span>
         </h2>
         <Slider {...settings}>
           {reviewData.map(({ img, result, desc, poster }, i) => (
             <div key={i}>
-              <article className="relative mx-auto mt-[65px] w-[300px] rounded-xl bg-secondary px-[17px] pt-[68px] sm:mt-[100px] sm:w-[450px] sm:px-[43px] sm:pt-[100px] md:mt-[140px] md:w-[550px] md:pt-[130px]">
+              <article className="relative mx-auto mt-[65px] w-[300px] rounded-xl bg-secondary px-[17px] pt-[68px] sm:mt-[100px] sm:w-[450px] sm:px-[43px] sm:pt-[100px] md:mt-[140px] md:w-[550px] md:pt-[130px] xl:w-[700px] xl:px-[80px] xl:pt-[160px] 2xl:mt-[180px] 2xl:w-[900px] 2xl:px-[120px] 2xl:pt-[200px]">
                 <figure className="absolute left-0 right-0 top-0 mx-auto w-1/2 -translate-y-1/2 sm:w-[55%]">
                   <img
-                    src={one}
+                    src={img}
                     alt="Stefan Stark"
                     className="w-full rounded"
                   />
                   {["Before", "After"].map((e, i) => (
                     <figcaption
                       key={i}
-                      className={`absolute bottom-[5%] left-0 right-0 mx-auto w-fit origin-right rounded-full bg-[#D9D9D9] uppercase sm:rounded ${i === 0 ? "-translate-x-[102%] sm:-translate-x-[108%] md:-translate-x-[112%]" : "translate-x-[121%] sm:translate-x-[130%] md:translate-x-[132%]"}`}
+                      className={`absolute bottom-[5%] left-0 right-0 mx-auto w-fit origin-right rounded-full bg-[#D9D9D9] font-medium uppercase sm:rounded ${i === 0 ? "-translate-x-[102%] sm:-translate-x-[108%] md:-translate-x-[112%] xl:-translate-x-[123%] 2xl:-translate-x-[135%]" : "translate-x-[121%] sm:translate-x-[130%] md:translate-x-[132%] xl:translate-x-[143%] 2xl:translate-x-[161%]"}`}
                     >
-                      <p className="px-[0.8em] py-[0.4em] text-[7px] leading-none sm:text-[10px] md:text-[12px]">
+                      <p className="px-[0.8em] py-[0.4em] text-[7px] leading-none sm:text-[10px] md:text-[12px] xl:text-[14px] 2xl:text-[16px]">
                         {e}
                       </p>
                     </figcaption>
@@ -181,78 +181,28 @@ const Trainers = () => {
                   <p className="flex items-start py-[1.4em] text-[7px] leading-[1em] sm:hidden">
                     <span className="text-[9px] leading-[0.7em]">Result -</span>
                     <span className="ps-[1ch]">
-                      Improved strength and fitness <br /> <br /> 1 kg muscle
-                      mass gained
+                      {result[0]} <br /> <br /> {result[1]}
                     </span>
                   </p>
                 </div>
-                <p className="hidden sm:flex sm:items-start sm:py-[1.4em] sm:text-[10px] sm:leading-[1em] md:text-[12px]">
-                  <span className="sm:text-[12px] sm:leading-[0.7em] md:text-[14px]">
+                <p className="hidden sm:flex sm:items-start sm:py-[1.4em] sm:text-[10px] sm:leading-[1em] md:text-[12px] xl:text-[14px] 2xl:text-[18px]">
+                  <span className="sm:text-[12px] sm:leading-[0.7em] md:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                     Result -
                   </span>
                   <span className="ps-[1ch]">
-                    Improved strength and fitness <br /> <br /> 1 kg muscle mass
-                    gained
+                    {result[0]} <br /> <br /> {result[1]}
                   </span>
                 </p>
-                <p className="pb-[1em] text-[7px] text-[#7C736E] sm:text-[10px] md:text-[12px]">
-                  "Stefen Stark achieved impressive results by gaining 1 kg of
-                  muscle mass. Before starting his tailored training program,
-                  Stefen had adefined yet lean physique. After diligently
-                  following the programand applying expert guidance, he
-                  successfully increased his musclemass by 1 kg, showcasing
-                  enhanced muscle definition and overall strength."
+                <p className="pb-[1em] text-[7px] text-[#7C736E] sm:text-[10px] md:text-[12px] xl:text-[14px] 2xl:text-[18px]">
+                  "{desc}"
                 </p>
-                <h4 className="-translate-x-[6%] pb-[1.2em] text-right text-[9px] font-medium text-primary sm:-translate-x-0 sm:text-[12px] md:text-[14px]">
-                  Stefan stark
+                <h4 className="-translate-x-[6%] pb-[1.4em] text-right text-[9px] font-medium text-primary sm:-translate-x-0 sm:text-[12px] md:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                  {poster}
                 </h4>
               </article>
             </div>
           ))}
         </Slider>
-        {/* <article className="relative mx-auto mt-[65px] w-[330px] rounded-xl bg-secondary px-[17px] pb-[11px] pt-[68px]">
-          <figure className="absolute left-0 right-0 top-0 mx-auto w-1/2 -translate-y-1/2">
-            <img src={one} alt="Stefan Stark" className="w-full rounded" />
-            <figcaption className="absolute bottom-[5%] left-0 right-0 mx-auto w-fit origin-right -translate-x-[102%] rounded-full bg-[#D9D9D9] uppercase">
-              <p className="px-[0.8em] py-[0.4em] text-[7px] leading-none">
-                Before
-              </p>
-            </figcaption>
-            <figcaption className="absolute bottom-[5%] left-0 right-0 mx-auto w-fit origin-right translate-x-[121%] rounded-full bg-[#D9D9D9] uppercase">
-              <p className="px-[0.8em] py-[0.4em] text-[7px] leading-none">
-                After
-              </p>
-            </figcaption>
-          </figure>
-          <div className="mx-auto w-[70%]">
-            <hr className="border-t-2 border-t-primary" />
-            <p className="flex items-start py-[1.4em] text-[8px] leading-none sm:hidden">
-              <span className="text-[11px] leading-[8px]">Result-</span>
-              <span className="ps-[1ch]">
-                Improved strength and fitness <br /> <br /> 1 kg muscle mass
-                gained
-              </span>
-            </p>
-          </div>
-          <p className="hidden sm:flex sm:items-start sm:py-[1.4em] sm:text-[8px] sm:leading-none">
-            <span className="text-[11px] leading-[9px]">Result-</span>
-            <span className="ps-[1ch]">
-              Improved strength and fitness <br /> <br /> 1 kg muscle mass
-              gained
-            </span>
-          </p>
-          <p className="pb-[1em] text-[8px] text-[#7C736E]">
-            "Stefen Stark achieved impressive results by gaining 1 kg of muscle
-            mass. Before starting his tailored training program, Stefen had
-            adefined yet lean physique. After diligently following the
-            programand applying expert guidance, he successfully increased his
-            musclemass by 1 kg, showcasing enhanced muscle definition and
-            overall strength."
-          </p>
-          <h4 className="-translate-x-[6%] text-right text-[11px] font-medium text-primary">
-            Stefan stark
-          </h4>
-        </article> */}
       </section>
     </>
   );
