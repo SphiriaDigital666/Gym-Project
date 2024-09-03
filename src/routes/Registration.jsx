@@ -16,10 +16,10 @@ const Registration = () => {
     <>
       <ImageSection bgMobile={bgMobile} bgDesktop={bgDesktop} />
       {/* -------- -------- REGISTRATION FORM -------- -------- */}
-      <section className="-mb-[8%] bg-white px-[10vw] sm:-mb-[13.5%]">
+      <section className="-mb-[8%] bg-white px-[10vw] sm:-mb-[13.5%] lg:-mb-[10%] xl:-mb-[8%] 2xl:-mb-[6%]">
         <form
           onSubmit={handleFromSubmit}
-          className="-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
+          className="hidden -translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Personal information
@@ -143,6 +143,119 @@ const Registration = () => {
             <div className="h-[2px] w-[15px] bg-primary sm:w-[40px] md:w-[50px] lg:w-[60px] xl:w-[70px] 2xl:w-[80px]"></div>
 
             <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
+            <div className="h-[2px] w-[15px] bg-primary sm:w-[40px] md:w-[50px] lg:w-[60px] xl:w-[70px] 2xl:w-[80px]"></div>
+
+            <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
+            <div className="h-[2px] w-[15px] bg-primary sm:w-[40px] md:w-[50px] lg:w-[60px] xl:w-[70px] 2xl:w-[80px]"></div>
+
+            <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
+          </div>
+        </form>
+        <form
+          onSubmit={handleFromSubmit}
+          className="-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
+        >
+          <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
+            Personal information
+          </h2>
+
+          {/* Emergency contact name */}
+          <fieldset className={`grid grid-cols-2 grid-rows-3 ${gap}`}>
+            <RegistrationLabel
+              htmlFor="first-em-name"
+              text="Emergency contact name"
+              classes="col-span-2"
+            />
+            <RegistrationInput type="text" name="first-em-name" />
+            <RegistrationInput type="text" name="last-em-name" />
+            <RegistrationLabel
+              htmlFor="first-em-name"
+              text="First name"
+              type="sub"
+            />
+            <RegistrationLabel
+              htmlFor="last-em-name"
+              text="Last name"
+              type="sub"
+            />
+          </fieldset>
+
+          {/* Relationship and phone */}
+          <fieldset className={`grid grid-cols-2 grid-rows-3 ${gap}`}>
+            <RegistrationLabel htmlFor="em-relationship" text="Relationship" />
+            <RegistrationLabel htmlFor="em-contact" text="Phone number" />
+            <RegistrationInput type="text" name="em-relationship" />
+            <RegistrationInput type="tel" name="em-contact" />
+            <RegistrationLabel
+              htmlFor="em-relationship"
+              text="Specify relationship"
+              type="sub"
+            />
+            <RegistrationLabel
+              htmlFor="em-contact"
+              text="Valid phone number"
+              type="sub"
+            />
+          </fieldset>
+
+          <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
+            Medical information
+          </h2>
+
+          {/* Allergies */}
+          <fieldset className="pb-[50%]">
+            <RegistrationLabel text="Do you have any medical conditons or allergies?" />
+            <br />
+            <div className="flex gap-x-[20%] py-1">
+              <div className="flex items-center gap-x-[30%]">
+                <input type="radio" name="isAllergic" id="yes" value="yes" />
+                <RegistrationLabel
+                  htmlFor="yes"
+                  text="Yes"
+                  type="sub"
+                  required
+                />
+              </div>
+              <div className="flex items-center gap-x-[30%]">
+                <input
+                  type="radio"
+                  name="isAllergic"
+                  id="no"
+                  value="no"
+                  required
+                />
+                <RegistrationLabel htmlFor="no" text="No" type="sub" />
+              </div>
+            </div>
+            <RegistrationLabel
+              htmlFor="allergy-details"
+              text="If yes, please provide details."
+            />
+            <br />
+            <textarea
+              name="allergy-details"
+              id="allergy-details"
+              rows="4"
+              className="w-full border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
+            ></textarea>
+          </fieldset>
+
+          <div className="flex justify-between pt-[1.4em]">
+            <button className="cursor-pointer bg-primary px-[1em] py-[0.5em] text-[10px] font-semibold capitalize leading-none text-black md:text-[12px] xl:text-[14px] 2xl:text-[16px]">
+              Back
+            </button>
+            <input
+              type="submit"
+              value="Next"
+              className="cursor-pointer bg-primary px-[1em] py-[0.5em] text-[10px] font-semibold capitalize leading-none text-black md:text-[12px] xl:text-[14px] 2xl:text-[16px]"
+            />
+          </div>
+
+          <div className="mx-auto flex w-fit items-center pb-4 pt-3 sm:pt-[15%]">
+            <div className="size-[12px] rounded-full border-2 border-primary bg-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
+            <div className="h-[2px] w-[15px] bg-primary sm:w-[40px] md:w-[50px] lg:w-[60px] xl:w-[70px] 2xl:w-[80px]"></div>
+
+            <div className="size-[12px] rounded-full border-2 border-primary bg-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
             <div className="h-[2px] w-[15px] bg-primary sm:w-[40px] md:w-[50px] lg:w-[60px] xl:w-[70px] 2xl:w-[80px]"></div>
 
             <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
