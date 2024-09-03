@@ -4,7 +4,7 @@ const RegistrationInput = ({ type, name, classes = "" }) => {
       type={type}
       id={name}
       name={name}
-      className={`border-2 border-white bg-secondary ps-[1ch] text-[11px] text-white outline-none ${classes}`}
+      className={`border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px] ${classes}`}
       required
     />
   );
