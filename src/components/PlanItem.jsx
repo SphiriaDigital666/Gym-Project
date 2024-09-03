@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import cardBg from "../assets/images/Home/card-bg.png";
 import checkedCheckbox from "../assets/images/Home/checkedCheckbox.png";
 import unCheckedCheckbox from "../assets/images/Home/uncheckedCheckbox.png";
@@ -41,8 +43,8 @@ const PlanItem = ({ image, title, price, features }) => {
             </li>
           );
         })}
-        <button className="mx-auto my-4 w-fit bg-primary px-[1.2em] py-[0.7em] text-[10px] font-extrabold uppercase text-black lg:text-[11px]">
-          Join today
+        <button className="mx-auto my-4 w-fit bg-primary px-[1.2em] py-[0.6em] text-[10px] font-extrabold uppercase text-black lg:text-[11px]">
+          <Link to="/login">Join today</Link>
         </button>
       </ul>
     </article>

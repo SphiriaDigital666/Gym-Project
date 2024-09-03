@@ -7,7 +7,7 @@ const Login = () => {
 
   return (
     <section className="flex min-h-[100svh] items-center justify-center bg-[url('./assets/images/Login/bg.png')] bg-cover bg-top px-[10vw]">
-      <div className="w-full max-w-screen-lg bg-black/70 text-center">
+      <div className="w-full max-w-screen-lg bg-black/60 text-center">
         <h2 className="pt-[1em] text-[22px] font-bold sm:text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px]">
           FitCore
         </h2>
@@ -15,7 +15,7 @@ const Login = () => {
           Please enter your details
         </h3>
         <menu className="flex items-center pb-[30%] pt-[16%] sm:pb-[15%] sm:pt-[8%]">
-          <form
+          {/* <form
             onSubmit={handleFormSubmit}
             className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]"
           >
@@ -52,8 +52,8 @@ const Login = () => {
             >
               Forgot your password?
             </Link>
-          </form>
-          {/* <div className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]">
+          </form> */}
+          <div className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]">
             <h4 className="font-semibold sm:text-[18px] md:text-[21px] lg:text-[23px] xl:text-[25px]">
               Welcome <br /> back!
             </h4>
@@ -63,8 +63,8 @@ const Login = () => {
             <button className="mt-[0.7em] border-2 border-primary px-[0.6em] py-[0.3em] text-[11px] font-semibold capitalize text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]">
               Sign up
             </button>
-          </div> */}
-          {/* <form
+          </div>
+          <form
             onSubmit={handleFormSubmit}
             className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]"
           >
@@ -115,8 +115,8 @@ const Login = () => {
             >
               Cancel
             </button>
-          </form> */}
-          <div className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]">
+          </form>
+          {/* <div className="flex w-1/2 flex-col items-center gap-y-3 px-2 sm:px-[5%]">
             <h4 className="font-semibold sm:text-[18px] md:text-[21px] lg:text-[23px] xl:text-[25px]">
               Start strong
             </h4>
@@ -127,7 +127,7 @@ const Login = () => {
             <button className="border-2 border-primary px-[0.6em] py-[0.3em] text-[11px] font-semibold capitalize text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]">
               Sign up
             </button>
-          </div>
+          </div> */}
         </menu>
       </div>
     </section>

@@ -76,8 +76,8 @@ const Home = () => {
             <span className="z-10 text-center text-[30px] font-bold uppercase leading-none sm:text-[38px] md:text-[50px] lg:text-[70px] xl:text-[90px] 2xl:text-[106px]">
               Begin your <br /> fitness journey
             </span>
-            <button className="mx-auto my-3 w-fit bg-primary px-2 py-1 text-[10px] font-extrabold uppercase text-black md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-              <Link to="/register">Register now</Link>
+            <button className="mx-auto my-3 w-fit bg-primary px-[0.6em] py-[0.3em] text-[10px] font-extrabold uppercase text-black md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+              <Link to="/login">Register now</Link>
             </button>
           </h1>
         </div>
@@ -106,7 +106,7 @@ const Home = () => {
         </h2>
         <figure className="flex flex-col items-center md:flex-row-reverse md:items-stretch md:pt-6">
           {/* Image */}
-          <div className="relative mx-auto my-4 flex w-[90%] justify-center md:my-0 md:w-[65%] md:items-end">
+          <div className="relative mx-auto my-4 flex h-fit w-[90%] justify-center md:my-0 md:w-[65%] md:items-end">
             <img src={welcomeImg} alt="A bodybuilder" className="z-10 h-fit" />
             <div className="absolute h-full w-[80%] border-4 border-b-0 border-[#04D9FF] md:top-0 md:h-[90%] md:w-[87%] md:border-b-4"></div>
             <div className="absolute z-10 h-full w-[80%] border-b-4 border-[#04D9FF] md:hidden"></div>
@@ -127,8 +127,8 @@ const Home = () => {
                 {e}
               </p>
             ))}
-            <button className="mx-auto my-3 w-fit bg-primary px-[0.8em] py-[0.5em] text-[11px] font-extrabold uppercase text-black md:mb-0 md:mt-[1.8em] md:text-[8px] lg:text-[11px] xl:text-[14px] 2xl:text-[17px]">
-              Contact with us
+            <button className="mx-auto my-3 w-fit bg-primary px-[0.8em] py-[0.4em] text-[11px] font-extrabold uppercase text-black md:mb-0 md:mt-[1.8em] md:text-[8px] lg:text-[11px] xl:text-[14px] 2xl:text-[17px]">
+              <Link to="/contact">Contact with us</Link>
             </button>
           </figcaption>
         </figure>

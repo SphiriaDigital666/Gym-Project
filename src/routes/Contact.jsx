@@ -100,7 +100,7 @@ const Contact = () => {
             placeholder="Message"
             className="mb-[0.7em] w-[28ch] px-[0.8em] py-[0.4em] text-[12px] text-black placeholder:capitalize sm:w-full sm:px-[1em] sm:py-[0.6em] lg:text-[13px] 2xl:text-[14px]"
           ></textarea>
-          <button className="mx-auto mt-[0.8em] w-fit bg-primary px-[1.2em] py-[0.2em] text-[13px] font-extrabold uppercase text-black sm:w-3/5 lg:text-[14px] 2xl:text-[15px]">
+          <button className="mt-[0.8em] self-center bg-primary px-[0.6em] py-[0.3em] text-[13px] font-extrabold uppercase text-black lg:text-[14px] 2xl:text-[15px]">
             Send
           </button>
         </form>
