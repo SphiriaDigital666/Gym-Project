@@ -52,9 +52,9 @@ const Navbar = () => {
             Contact
           </Link>
           <button
-            className={`bg-primary px-4 py-1 font-bold capitalize text-black ${path !== "/register" && "hover:opacity-70"}`}
+            className={`bg-primary px-4 py-1 font-bold capitalize text-black ${path !== "/login" && "hover:opacity-70"}`}
           >
-            <Link to="/register">Sign up</Link>
+            <Link to="/login">Sign up</Link>
           </button>
         </nav>
         <button
@@ -89,9 +89,9 @@ const Navbar = () => {
             Contact
           </Link>
           <button
-            className={`mt-8 w-fit bg-primary px-4 py-1 font-bold capitalize text-black ${path !== "/register" && "hover:opacity-70"}`}
+            className={`mt-8 w-fit bg-primary px-4 py-1 font-bold capitalize text-black ${path !== "/login" && "hover:opacity-70"}`}
           >
-            <Link to="/register">Sign up</Link>
+            <Link to="/login">Sign up</Link>
           </button>
         </nav>
       </section>
