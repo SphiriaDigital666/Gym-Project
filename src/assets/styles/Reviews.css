@@ -70,3 +70,57 @@
     transform: translateX(310px);
   }
 }
+
+@media (min-width: 1024px) {
+  .slick-prev {
+    transform: translateX(-380px);
+  }
+
+  .slick-next {
+    transform: translateX(380px);
+  }
+
+  .slick-prev:before {
+    font-size: 6rem;
+  }
+
+  .slick-next:before {
+    font-size: 6rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .slick-prev {
+    transform: translateX(-455px);
+  }
+
+  .slick-next {
+    transform: translateX(455px);
+  }
+
+  .slick-prev:before {
+    font-size: 7rem;
+  }
+
+  .slick-next:before {
+    font-size: 7rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .slick-prev {
+    transform: translateX(-600px);
+  }
+
+  .slick-next {
+    transform: translateX(600px);
+  }
+
+  .slick-prev:before {
+    font-size: 8rem;
+  }
+
+  .slick-next:before {
+    font-size: 8rem;
+  }
+}

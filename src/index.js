@@ -6,11 +6,12 @@ import App from "./App";
 import Home from "./routes/Home";
 import Trainers from "./routes/Trainers";
 import Contact from "./routes/Contact";
-import Register from "./routes/Register";
+import Login from "./routes/Login";
 import Profile from "./routes/Profile";
+import Error from "./routes/Error";
+import Registration from "./routes/Registration";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import Error from "./routes/Error";
 
 const router = createBrowserRouter([
   {
@@ -31,12 +32,16 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "register",
-        element: <Register />,
+        path: "login",
+        element: <Login />,
       },
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "registration",
+        element: <Registration />,
       },
     ],
   },
