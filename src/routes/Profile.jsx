@@ -48,7 +48,7 @@ const Profile = () => {
   return (
     <>
       <ImageSection bgMobile={bgMobile} bgDesktop={bgDesktop} />
-      <section className="bg-secondary px-[10vw] md:px-[5vw]">
+      <section className="bg-secondary px-[10vw] sm:px-[18vw]">
         {/* Profile picture */}
         <figure className="text-center">
           <div className="flex h-[40px] w-full items-end justify-center sm:h-[55px] md:h-[70px] lg:h-[85px] xl:h-[100px] 2xl:h-[115px]">
@@ -162,46 +162,42 @@ const Profile = () => {
               />
             </ul>
           </fieldset>
+          {/* Image upload */}
           <fieldset className="mx-auto flex w-[70%] flex-col items-center pt-[7%]">
             <h4 className="text-[8px] xl:text-[20px]">Upload Your Photos</h4>
             <button className="self-end text-[8px] underline xl:text-[20px]">
               See more
             </button>
           </fieldset>
-          <fieldset className="flex justify-between bg-slate-600 pt-[7%]">
-            <div className="bg-slate-300 leading-none">
-              <button
-                type="button"
-                className="text-[7px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
-              >
-                logout
-              </button>
-            </div>
-            <div className="bg-slate-300 leading-none">
-              <button
-                type="button"
-                className="text-[7px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
-              >
-                logout
-              </button>
-              <button
-                type="button"
-                className="text-[7px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
-              >
-                logout
-              </button>
-            </div>
-            {/* <button
-              type="button"
-              className="flex bg-slate-200 text-[7px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
-            >
+          {/* Buttons */}
+          <fieldset className="mt-[7%] flex items-center justify-between leading-none">
+            <div className="flex items-center">
               <img
                 src={logout}
-                alt="Edit information"
-                className="size-[10px] sm:size-[16px] md:size-[19px] lg:size-[22px] xl:size-[25px] 2xl:size-[28px]"
+                alt="Logout"
+                className="size-[10px] sm:size-[14px] md:size-[18px] lg:size-[22px] xl:size-[25px] 2xl:size-[28px]"
               />
-              Log out
-            </button> */}
+              <button
+                type="button"
+                className="ms-[0.5em] text-[7px] capitalize underline sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
+              >
+                Logout
+              </button>
+            </div>
+            <div className="flex gap-x-2">
+              <button
+                type="reset"
+                className="border border-primary px-[0.8em] py-[0.4em] text-[7px] font-semibold capitalize sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="border border-primary bg-primary px-[0.8em] py-[0.4em] text-[7px] font-semibold capitalize text-black sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px]"
+              >
+                Save changes
+              </button>
+            </div>
           </fieldset>
         </form>
       </section>

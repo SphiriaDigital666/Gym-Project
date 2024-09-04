@@ -10,6 +10,8 @@ import Login from "./routes/Login";
 import Profile from "./routes/Profile";
 import Error from "./routes/Error";
 import Registration from "./routes/Registration";
+import AddMember from "./routes/AddMember";
+import MemberProfile from "./routes/MemberProfile";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
       {
         path: "registration",
         element: <Registration />,
+      },
+      {
+        path: "add-member",
+        element: <AddMember />,
+      },
+      {
+        path: "member-profile",
+        element: <MemberProfile />,
       },
     ],
   },
