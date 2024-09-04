@@ -19,7 +19,7 @@ const Registration = () => {
         {/* -------- -------- PERSONAL INFO FORM -------- -------- */}
         <form
           onSubmit={handleFromSubmit}
-          className="hidden -translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
+          className="-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Personal information
@@ -274,7 +274,7 @@ const Registration = () => {
         {/* -------- -------- MEMBERSHIP INFO FORM -------- -------- */}
         <form
           onSubmit={handleFromSubmit}
-          className="-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%]"
+          className="hidden -translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%]"
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Membership information
@@ -434,6 +434,7 @@ const Registration = () => {
             </div>
           </fieldset>
 
+          {/* Start date */}
           <fieldset className="pt-[3%]">
             <RegistrationLabel
               htmlFor="start-date"
@@ -444,8 +445,9 @@ const Registration = () => {
             <br />
           </fieldset>
 
+          {/* Terms and coditions */}
           <fieldset className="flex items-center gap-x-2 pb-[50%] pt-[3%]">
-            <input type="checkbox" id="conditions" name="conditions" />
+            <input type="checkbox" id="conditions" name="conditions" required />
             <RegistrationLabel
               htmlFor="conditions"
               text="I agree to the terms and conditons"
