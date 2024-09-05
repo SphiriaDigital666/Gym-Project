@@ -28,6 +28,19 @@ code {
     monospace;
 }
 
+.animate-toggle-button > div {
+  transform: rotate(180deg);
+  background-color: transparent;
+}
+
+.animate-toggle-button > div::before {
+  transform: translateY(0) rotate(45deg);
+}
+
+.animate-toggle-button > div::after {
+  transform: translateY(0) rotate(-45deg);
+}
+
 .text-lift {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }

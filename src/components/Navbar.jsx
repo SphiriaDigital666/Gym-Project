@@ -54,7 +54,7 @@ const Navbar = () => {
           ))}
         </nav>
         <button
-          className={`${isToggled ? "style-one" : ""} relative h-4 w-6 transition-opacity duration-300 md:hidden`}
+          className={`${isToggled && "animate-toggle-button"} relative h-4 w-6 transition-opacity duration-300 md:hidden`}
           onClick={handleClick}
         >
           <div className="absolute -mt-[0.5px] h-[1px] w-full rounded bg-white drop-shadow-[1px_1px_1px_rgba(0,0,0,0.5)] transition-all duration-700 ease-in-out before:absolute before:left-0 before:h-[1px] before:w-full before:-translate-y-[6px] before:rounded before:bg-white before:transition-transform before:duration-700 before:ease-in-out after:absolute after:left-0 after:h-[1px] after:w-full after:translate-y-[6px] after:rounded after:bg-white after:transition-transform after:duration-700 after:ease-in-out"></div>
