@@ -1,4 +1,4 @@
-const RegistrationInput = ({ type, name, classes = "" }) => {
+const RegistrationInput = ({ type, name, classes }) => {
   return (
     <input
       type={type}

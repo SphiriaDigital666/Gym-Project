@@ -1,12 +1,12 @@
-import ImageSection from "../components/ImageSection";
-import Input from "../components/Input";
+import ImageSection from "../../components/ImageSection";
+import Input from "../../components/Input";
 
-import bgMobile from "../assets/images/Contact/bg-mobile.png";
-import bgDesktop from "../assets/images/Contact/bg-desktop.png";
-import location from "../assets/images/Contact/location.png";
-import phone from "../assets/images/Contact/phone.png";
-import email from "../assets/images/Contact/email.png";
-import clock from "../assets/images/Contact/clock.png";
+import bgMobile from "../../assets/images/Contact/bg-mobile.png";
+import bgDesktop from "../../assets/images/Contact/bg-desktop.png";
+import location from "../../assets/images/Contact/location.png";
+import phone from "../../assets/images/Contact/phone.png";
+import email from "../../assets/images/Contact/email.png";
+import clock from "../../assets/images/Contact/clock.png";
 
 const data = [
   {

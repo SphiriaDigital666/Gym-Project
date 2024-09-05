@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import fb from "../assets/images/Footer/facebook.png";
 import li from "../assets/images/Footer/linked-in.png";
@@ -6,8 +6,20 @@ import tw from "../assets/images/Footer/twitter.png";
 import ig from "../assets/images/Footer/instagram.png";
 import cp from "../assets/images/Footer/copyright.png";
 
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "Our trainers", path: "/trainers" },
+  { name: "Contact", path: "/contact" },
+];
+
+const socialLinks = [
+  { name: "Facebook", logo: fb, path: "https://www.facebook.com/" },
+  { name: "LinkedIn", logo: li, path: "https://lk.linkedin.com/" },
+  { name: "Twitter", logo: tw, path: "https://x.com/?lang=en" },
+  { name: "Instagram", logo: ig, path: "https://www.instagram.com/" },
+];
+
 const Footer = () => {
-  const path = useLocation().pathname;
   const date = new Date();
 
   const titleFontSize =
@@ -16,7 +28,7 @@ const Footer = () => {
     "text-[7px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-[12px] 2xl:text-[13px]";
 
   return (
-    <footer className="bg-gradient-to-t from-secondary to-[#535353] px-[10vw] py-[6%] md:px-[5vw] md:py-[4%]">
+    <footer className="bg-gradient-to-t from-secondary to-[#535353] px-[10vw] py-[6%] text-white md:px-[5vw] md:py-[4%]">
       <section>
         <div className={`flex justify-between md:px-[8vw] ${linkFontSize}`}>
           {/* Menu One */}
@@ -42,25 +54,17 @@ const Footer = () => {
             >
               Services
             </h4>
-            <Link
-              to="/"
-              className={`mt-[1.2em] flex items-center gap-x-[0.6em] ${path === "/" ? "text-primary" : "hover:opacity-70"}`}
-            >
-              <span className="text-[1.5em] text-white">&#10095;</span> Home
-            </Link>
-            <Link
-              to="/trainers"
-              className={`mt-[0.2em] flex items-center gap-x-[0.6em] ${path === "/trainers" ? "text-primary" : "hover:opacity-70"}`}
-            >
-              <span className="text-[1.5em] text-white">&#10095;</span> Our
-              Trainers
-            </Link>
-            <Link
-              to="/contact"
-              className={`mt-[0.2em] flex items-center gap-x-[0.6em] ${path === "/contact" ? "text-primary" : "hover:opacity-70"}`}
-            >
-              <span className="text-[1.5em] text-white">&#10095;</span> Contact
-            </Link>
+            {navLinks.map(({ name, path }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className={({ isActive }) =>
+                  ` ${path === "/" ? "mt-[1.2em]" : "mt-[0.2em]"} flex items-center gap-x-[0.6em] ${isActive ? "text-primary" : "hover:opacity-70"}`
+                }
+              >
+                <span className="text-[1.5em] text-white">&#10095;</span> {name}
+              </NavLink>
+            ))}
           </nav>
           {/* Menu Three*/}
           <ul>
@@ -79,26 +83,13 @@ const Footer = () => {
         <hr className="mt-[1.2em] border-b border-b-[#ADA19A]" />
         <div className="flex flex-col justify-between md:flex-row-reverse md:items-baseline md:px-[8vw]">
           <ul className="mt-[1.2em] flex justify-center gap-[1.5em]">
-            <li>
-              <Link to="https://www.facebook.com/">
-                <img src={fb} alt="Facebook link" className="w-4 sm:w-full" />
-              </Link>
-            </li>
-            <li>
-              <Link to="https://www.facebook.com/">
-                <img src={li} alt="Linked in link" className="w-4 sm:w-full" />
-              </Link>
-            </li>
-            <li>
-              <Link to="https://www.facebook.com/">
-                <img src={tw} alt="Twitter link" className="w-4 sm:w-full" />
-              </Link>
-            </li>
-            <li>
-              <Link to="https://www.facebook.com/">
-                <img src={ig} alt="Instagram link" className="w-4 sm:w-full" />
-              </Link>
-            </li>
+            {socialLinks.map(({ name, logo, path }) => (
+              <li key={path}>
+                <Link to={path}>
+                  <img src={logo} alt={name} className="w-4 sm:w-full" />
+                </Link>
+              </li>
+            ))}
           </ul>
           <p
             className={`bg mt-[1.2em] flex items-center justify-center gap-[0.5em] text-center leading-none ${linkFontSize}`}

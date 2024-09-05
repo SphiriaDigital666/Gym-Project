@@ -1,19 +1,20 @@
 import Slider from "react-slick";
 
-import ImageSection from "../components/ImageSection";
-import bgMobile from "../assets/images/Trainers/bg-mobile.png";
-import bgDesktop from "../assets/images/Trainers/bg-desktop.png";
-import kevin from "../assets/images/Trainers/kevin.png";
-import brian from "../assets/images/Trainers/brian.png";
-import shene from "../assets/images/Trainers/shene.png";
-import alex from "../assets/images/Trainers/alex.png";
-import one from "../assets/images/Trainers/review-one.png";
-import two from "../assets/images/Trainers/review-two.png";
-import three from "../assets/images/Trainers/review-three.png";
+import ImageSection from "../../components/ImageSection";
+
+import bgMobile from "../../assets/images/Trainers/bg-mobile.png";
+import bgDesktop from "../../assets/images/Trainers/bg-desktop.png";
+import kevin from "../../assets/images/Trainers/kevin.png";
+import brian from "../../assets/images/Trainers/brian.png";
+import shene from "../../assets/images/Trainers/shene.png";
+import alex from "../../assets/images/Trainers/alex.png";
+import one from "../../assets/images/Trainers/review-one.png";
+import two from "../../assets/images/Trainers/review-two.png";
+import three from "../../assets/images/Trainers/review-three.png";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../assets/styles/Reviews.css";
+import "../../assets/styles/Reviews.css";
 
 const trainerData = [
   {

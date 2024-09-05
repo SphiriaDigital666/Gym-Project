@@ -1,12 +1,12 @@
-import ImageSection from "../components/ImageSection";
-import ProfileListItem from "../components/ProfileListItem";
-import ProfileListTitle from "../components/ProfileListTitle";
+import ImageSection from "../../components/ImageSection";
+import ProfileListItem from "../../components/ProfileListItem";
+import ProfileListTitle from "../../components/ProfileListTitle";
 
-import bgMobile from "../assets/images/Profile/bg-mobile.png";
-import bgDesktop from "../assets/images/Profile/bg-desktop.png";
-import profilePic from "../assets/images/Profile/profile-pic.png";
-import editProfilePic from "../assets/images/Profile/edit-profile-pic.png";
-import logout from "../assets/images/Profile/logout.png";
+import bgMobile from "../../assets/images/Profile/bg-mobile.png";
+import bgDesktop from "../../assets/images/Profile/bg-desktop.png";
+import profilePic from "../../assets/images/Profile/profile-pic.png";
+import editProfilePic from "../../assets/images/Profile/edit-profile-pic.png";
+import logout from "../../assets/images/Profile/logout.png";
 
 const personalInfo = {
   fullName: "Dominic Brian",
@@ -48,7 +48,7 @@ const Profile = () => {
   return (
     <>
       <ImageSection bgMobile={bgMobile} bgDesktop={bgDesktop} />
-      <section className="bg-secondary px-[10vw] sm:px-[18vw]">
+      <section className="bg-secondary px-[10vw] pb-[8%] sm:px-[18vw]">
         {/* Profile picture */}
         <figure className="text-center">
           <div className="flex h-[40px] w-full items-end justify-center sm:h-[55px] md:h-[70px] lg:h-[85px] xl:h-[100px] 2xl:h-[115px]">
@@ -75,7 +75,7 @@ const Profile = () => {
         {/* Profile form */}
         <form
           onSubmit={handleFormSubmit}
-          className="mb-[8%] mt-[5%] border-2 border-primary px-[5%] pb-[5%]"
+          className="mt-[5%] border-2 border-primary px-[5%] pb-[5%]"
         >
           {/* Personal info*/}
           <fieldset className="pt-[7%]">

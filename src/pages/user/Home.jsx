@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
 
-import PlanItem from "../components/PlanItem";
+import PlanItem from "../../components/PlanItem";
 
-import heroBg from "../assets/images/Home/hero-bg.png";
-import welcomeImg from "../assets/images/Home/welcome-img.png";
-import processBg from "../assets/images/Home/processBg.png";
-import connect from "../assets/images/Home/connect.png";
-import choose from "../assets/images/Home/choose.png";
-import schedule from "../assets/images/Home/schedule.png";
-import change from "../assets/images/Home/change.png";
-import standardItem from "../assets/images/Home/standardItem.png";
-import premiumItem from "../assets/images/Home/premiumItem.png";
-import platinumItem from "../assets/images/Home/platinumItem.png";
+import heroBg from "../../assets/images/Home/hero-bg.png";
+import welcomeImg from "../../assets/images/Home/welcome-img.png";
+import processBg from "../../assets/images/Home/processBg.png";
+import connect from "../../assets/images/Home/connect.png";
+import choose from "../../assets/images/Home/choose.png";
+import schedule from "../../assets/images/Home/schedule.png";
+import change from "../../assets/images/Home/change.png";
+import standardItem from "../../assets/images/Home/standardItem.png";
+import premiumItem from "../../assets/images/Home/premiumItem.png";
+import platinumItem from "../../assets/images/Home/platinumItem.png";
 
 const heroData = [
   { mainTxt: "10+", subTxt: ["Years", "experience"] },
@@ -76,9 +76,11 @@ const Home = () => {
             <span className="z-10 text-center text-[30px] font-bold uppercase leading-none sm:text-[38px] md:text-[50px] lg:text-[70px] xl:text-[90px] 2xl:text-[106px]">
               Begin your <br /> fitness journey
             </span>
-            <button className="mx-auto my-3 w-fit bg-primary px-[0.6em] py-[0.3em] text-[10px] font-extrabold uppercase text-black md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-              <Link to="/login">Register now</Link>
-            </button>
+            <Link to="/login">
+              <button className="mx-auto my-3 w-fit bg-primary px-[0.6em] py-[0.3em] text-[10px] font-extrabold uppercase text-black md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+                Register now
+              </button>
+            </Link>
           </h1>
         </div>
         <div className="flex w-full">
@@ -127,9 +129,11 @@ const Home = () => {
                 {e}
               </p>
             ))}
-            <button className="mx-auto my-3 w-fit bg-primary px-[0.8em] py-[0.4em] text-[11px] font-extrabold uppercase text-black md:mb-0 md:mt-[1.8em] md:text-[8px] lg:text-[11px] xl:text-[14px] 2xl:text-[17px]">
-              <Link to="/contact">Contact with us</Link>
-            </button>
+            <Link to="/contact">
+              <button className="mx-auto my-3 w-fit bg-primary px-[0.8em] py-[0.4em] text-[11px] font-extrabold uppercase text-black md:mb-0 md:mt-[1.8em] md:text-[8px] lg:text-[11px] xl:text-[14px] 2xl:text-[17px]">
+                Contact with us
+              </button>
+            </Link>
           </figcaption>
         </figure>
       </section>

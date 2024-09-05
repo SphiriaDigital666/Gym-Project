@@ -1,66 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import App from "./App";
-import Home from "./routes/Home";
-import Trainers from "./routes/Trainers";
-import Contact from "./routes/Contact";
-import Login from "./routes/Login";
-import Profile from "./routes/Profile";
-import Error from "./routes/Error";
-import Registration from "./routes/Registration";
-import AddMember from "./routes/AddMember";
-import MemberProfile from "./routes/MemberProfile";
-import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <Error />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "trainers",
-        element: <Trainers />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
-        path: "registration",
-        element: <Registration />,
-      },
-      {
-        path: "add-member",
-        element: <AddMember />,
-      },
-      {
-        path: "member-profile",
-        element: <MemberProfile />,
-      },
-    ],
-  },
-]);
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>,
 );
 

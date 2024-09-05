@@ -43,9 +43,11 @@ const PlanItem = ({ image, title, price, features }) => {
             </li>
           );
         })}
-        <button className="mx-auto my-4 w-fit bg-primary px-[1.2em] py-[0.6em] text-[10px] font-extrabold uppercase text-black lg:text-[11px]">
-          <Link to="/login">Join today</Link>
-        </button>
+        <Link to="/login">
+          <button className="mx-auto my-4 w-fit bg-primary px-[1.2em] py-[0.6em] text-[10px] font-extrabold uppercase text-black lg:text-[11px]">
+            Join today
+          </button>
+        </Link>
       </ul>
     </article>
   );
