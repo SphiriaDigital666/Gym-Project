@@ -4,37 +4,75 @@ import "../../assets/styles/Login.css";
 
 const Login = () => {
   const [isToggled, setIsToggled] = useState(true);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     setIsToggled((prev) => !prev);
   };
+  const handleLoginInputChange = (key, value) => {
+    setLoginData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+  const handleRegisterInputChange = (key, value) => {
+    setRegisterData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      email: email,
-      password: password,
-    });
-    navigate(`/`);
+    fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Could not fetch response");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          return console.log("Couldn't Sign In");
+        }
+        data.isAdmin ? navigate("/admin") : navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleRegisterFormSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-    });
-    if (password === confirmPassword) {
-      navigate(`/`);
-    }
+    fetch("http://localhost:8080/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerData),
+    })
+      .then((result) => {
+        if (!result.ok) {
+          throw new Error("Could not fetch response");
+        }
+        return result.json();
+      })
+      .then((data) => {
+        data.success ? navigate("/") : console.log("Couldn't Sign Up");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -62,7 +100,7 @@ const Login = () => {
               type="email"
               name="email"
               onChange={(e) => {
-                setEmail(e.target.value);
+                handleLoginInputChange(e.target.name, e.target.value);
               }}
               className="w-full px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
               placeholder="Email"
@@ -72,7 +110,7 @@ const Login = () => {
               type="password"
               name="password"
               onChange={(e) => {
-                setPassword(e.target.value);
+                handleLoginInputChange(e.target.name, e.target.value);
               }}
               className="w-full px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
               placeholder="Password"
@@ -144,7 +182,7 @@ const Login = () => {
                 type="text"
                 name="firstName"
                 onChange={(e) => {
-                  setFirstName(e.target.value);
+                  handleRegisterInputChange(e.target.name, e.target.value);
                 }}
                 className="px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:w-1/2 sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
                 placeholder="First name"
@@ -154,7 +192,7 @@ const Login = () => {
                 type="text"
                 name="lastName"
                 onChange={(e) => {
-                  setLastName(e.target.value);
+                  handleRegisterInputChange(e.target.name, e.target.value);
                 }}
                 className="px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:w-1/2 sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
                 placeholder="Last name"
@@ -165,7 +203,7 @@ const Login = () => {
               type="email"
               name="email"
               onChange={(e) => {
-                setEmail(e.target.value);
+                handleRegisterInputChange(e.target.name, e.target.value);
               }}
               className="w-full px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
               placeholder="Email"
@@ -175,7 +213,7 @@ const Login = () => {
               type="password"
               name="password"
               onChange={(e) => {
-                setPassword(e.target.value);
+                handleRegisterInputChange(e.target.name, e.target.value);
               }}
               className="w-full px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
               placeholder="Password"
@@ -185,7 +223,7 @@ const Login = () => {
               type="password"
               name="confirmPassword"
               onChange={(e) => {
-                setConfirmPassword(e.target.value);
+                handleRegisterInputChange(e.target.name, e.target.value);
               }}
               className="w-full px-[1ch] py-[0.5ch] text-[10px] text-black outline-none placeholder:text-[#B3B3B3] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
               placeholder="Confirm password"
