@@ -10,7 +10,7 @@ import "../../assets/styles/Registration.css";
 const Registration = () => {
   const [isFormOneHidden, setIsFormOneHidden] = useState(false);
   const [isFormTwoHidden, setIsFormTwoHidden] = useState(true);
-  const [isTextAreaHidden, setIsTextAreaHidden] = useState(true);
+  const [isTextAreaRequired, setIsTextAreaRequired] = useState(false);
   const [isFormThreeHidden, setIsFormThreeHidden] = useState(true);
   const [isFormFourHidden, setIsFormFourHidden] = useState(true);
 
@@ -28,37 +28,47 @@ const Registration = () => {
     goalWeight: "",
     currentJob: "",
   });
+  const [emergencyInfo, setEmergencyInfo] = useState({
+    emergencyFirstName: "",
+    emergencyLastName: "",
+    emergencyRelationship: "",
+    emergencyTel: "",
+  });
+  const [medicalInfo, setMedicalInfo] = useState({
+    isAllergic: "",
+    allergyDetails: "",
+  });
+  const [membershipInfo, setMembershipInfo] = useState({
+    membershipType: "",
+    planType: "",
+    trainer: "",
+    startDate: "",
+  });
 
-  const personalInfoDataChange = (key, value) => {
+  const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));
-  };
+
+  const handleEmergencyInfoDataChange = (key, value) =>
+    setEmergencyInfo((prev) => ({ ...prev, [key]: value }));
+
+  const handleMedicalInfoDataChange = (key, value) =>
+    setMedicalInfo((prev) => ({ ...prev, [key]: value }));
+
+  const handleMembershipInfoDataChange = (key, value) =>
+    setMembershipInfo((prev) => ({ ...prev, [key]: value }));
 
   const handleFormOneSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/registration", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(personalInfo),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Could not fetch respone");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (!data.success) {
-          return console.log("Could not submit Personal Information");
-        }
-        setIsFormOneHidden(true);
-        setIsFormTwoHidden(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(personalInfo);
+    setIsFormOneHidden(true);
+    setIsFormTwoHidden(false);
   };
   const handleFormTwoSubmit = (e) => {
     e.preventDefault();
+    console.log({
+      emergencyInfo: emergencyInfo,
+      medicalInfo: medicalInfo,
+    });
     setIsFormTwoHidden(true);
     setIsFormThreeHidden(false);
   };
@@ -68,8 +78,36 @@ const Registration = () => {
   };
   const handleFormThreeSubmit = (e) => {
     e.preventDefault();
-    setIsFormThreeHidden(true);
-    setIsFormFourHidden(false);
+    console.log(membershipInfo);
+
+    fetch("http://localhost:8080/registration", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        personalInfo: personalInfo,
+        emergencyInfo: emergencyInfo,
+        medicalInfo: medicalInfo,
+        membershipInfo: membershipInfo,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Could not fetch response");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          return console.log("Could not submit registration details");
+        }
+        setIsFormThreeHidden(true);
+        setIsFormFourHidden(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleFormThreeExit = () => {
     setIsFormTwoHidden(false);
@@ -110,24 +148,30 @@ const Registration = () => {
             <RegistrationLabel text="Full name" classes="col-span-2" />
             <RegistrationInput
               type="text"
+              id="first-name"
               name="firstName"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationInput
               type="text"
+              id="last-name"
               name="lastName"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationLabel
-              htmlFor="firstName"
+              htmlFor="first-name"
               text="First name"
               type="sub"
             />
-            <RegistrationLabel htmlFor="lastName" text="Last name" type="sub" />
+            <RegistrationLabel
+              htmlFor="last-name"
+              text="Last name"
+              type="sub"
+            />
           </fieldset>
 
           {/* Email and phone */}
@@ -139,7 +183,7 @@ const Registration = () => {
               id="email"
               name="email"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationInput
@@ -147,7 +191,7 @@ const Registration = () => {
               id="tel"
               name="tel"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationLabel
@@ -171,7 +215,7 @@ const Registration = () => {
               id="dob"
               name="DOB"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
               classes="w-full"
             />
@@ -180,7 +224,7 @@ const Registration = () => {
               name="gender"
               value={personalInfo.gender}
               onChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
               className="border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none md:text-[10px] lg:text-[12px] xl:text-[14px] 2xl:text-[16px]"
             >
@@ -197,7 +241,7 @@ const Registration = () => {
               id="address-one"
               name="addressOne"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationLabel
@@ -210,7 +254,7 @@ const Registration = () => {
               id="address-two"
               name="addressTwo"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationLabel
@@ -229,7 +273,7 @@ const Registration = () => {
               id="current-weight"
               name="currentWeight"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationInput
@@ -237,7 +281,7 @@ const Registration = () => {
               id="height"
               name="height"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
           </fieldset>
@@ -251,7 +295,7 @@ const Registration = () => {
               id="goal-weight"
               name="goalWeight"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
             <RegistrationInput
@@ -259,7 +303,7 @@ const Registration = () => {
               id="current-job"
               name="currentJob"
               handleChange={(e) =>
-                personalInfoDataChange(e.target.name, e.target.value)
+                handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
             />
           </fieldset>
@@ -289,7 +333,9 @@ const Registration = () => {
         {/* -------- -------- MEDICAL INFO FORM -------- -------- */}
         <form
           onSubmit={handleFormTwoSubmit}
-          className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${isFormTwoHidden && "hidden"}`}
+          className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${
+            isFormTwoHidden && "hidden"
+          }`}
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Emergency Contact information
@@ -298,19 +344,32 @@ const Registration = () => {
           {/* Emergency contact name */}
           <fieldset className="grid grid-cols-2 grid-rows-3 gap-x-4 sm:gap-x-[8%]">
             <RegistrationLabel
-              htmlFor="first-em-name"
               text="Emergency contact name"
               classes="col-span-2"
             />
-            <RegistrationInput type="text" name="first-em-name" />
-            <RegistrationInput type="text" name="last-em-name" />
+            <RegistrationInput
+              type="text"
+              id="emergency-first-name"
+              name="emergencyFirstName"
+              handleChange={(e) =>
+                handleEmergencyInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationInput
+              type="text"
+              id="emergency-last-name"
+              name="emergencyLastName"
+              handleChange={(e) =>
+                handleEmergencyInfoDataChange(e.target.name, e.target.value)
+              }
+            />
             <RegistrationLabel
-              htmlFor="first-em-name"
+              htmlFor="emergency-first-name"
               text="First name"
               type="sub"
             />
             <RegistrationLabel
-              htmlFor="last-em-name"
+              htmlFor="emergency-last-name"
               text="Last name"
               type="sub"
             />
@@ -318,17 +377,34 @@ const Registration = () => {
 
           {/* Relationship and phone */}
           <fieldset className="grid grid-cols-2 grid-rows-3 gap-x-4 sm:gap-x-[8%]">
-            <RegistrationLabel htmlFor="em-relationship" text="Relationship" />
-            <RegistrationLabel htmlFor="em-contact" text="Phone number" />
-            <RegistrationInput type="text" name="em-relationship" />
-            <RegistrationInput type="tel" name="em-contact" />
             <RegistrationLabel
-              htmlFor="em-relationship"
+              htmlFor="emergency-relationship"
+              text="Relationship"
+            />
+            <RegistrationLabel htmlFor="emergency-tel" text="Phone number" />
+            <RegistrationInput
+              type="text"
+              id="emergency-relationship"
+              name="emergencyRelationship"
+              handleChange={(e) =>
+                handleEmergencyInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationInput
+              type="tel"
+              id="emergency-tel"
+              name="emergencyTel"
+              handleChange={(e) =>
+                handleEmergencyInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationLabel
+              htmlFor="emergency-relationship"
               text="Specify relationship"
               type="sub"
             />
             <RegistrationLabel
-              htmlFor="em-contact"
+              htmlFor="emergency-tel"
               text="Valid phone number"
               type="sub"
             />
@@ -346,10 +422,13 @@ const Registration = () => {
               <div className="flex items-center gap-x-[30%]">
                 <input
                   type="radio"
-                  name="is-allergic"
-                  onClick={() => setIsTextAreaHidden(false)}
+                  name="isAllergic"
+                  onClick={() => setIsTextAreaRequired(true)}
+                  onChange={(e) =>
+                    handleMedicalInfoDataChange(e.target.name, e.target.value)
+                  }
                   id="yes"
-                  value="yes"
+                  value="true"
                   required
                 />
                 <RegistrationLabel htmlFor="yes" text="Yes" type="sub" />
@@ -357,10 +436,16 @@ const Registration = () => {
               <div className="flex items-center gap-x-[30%]">
                 <input
                   type="radio"
-                  name="is-allergic"
-                  onClick={() => setIsTextAreaHidden(true)}
+                  name="isAllergic"
+                  onClick={() => {
+                    setIsTextAreaRequired(false);
+                    handleMedicalInfoDataChange("allergyDetails", "");
+                  }}
+                  onChange={(e) =>
+                    handleMedicalInfoDataChange(e.target.name, e.target.value)
+                  }
                   id="no"
-                  value="no"
+                  value="false"
                   required
                 />
                 <RegistrationLabel htmlFor="no" text="No" type="sub" />
@@ -372,20 +457,25 @@ const Registration = () => {
                 text="If yes, please provide details."
               />
               <br />
-              {!isTextAreaHidden ? (
+              {isTextAreaRequired ? (
                 <textarea
-                  name="allergy-details"
                   id="allergy-details"
+                  name="allergyDetails"
                   rows="4"
+                  onChange={(e) =>
+                    handleMedicalInfoDataChange(e.target.name, e.target.value)
+                  }
                   className="w-full origin-top border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
                   required
                 ></textarea>
               ) : (
                 <textarea
-                  name="allergy-details"
+                  name="allergyDetails"
                   id="allergy-details"
                   rows="4"
+                  value=""
                   className="w-full origin-top border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
+                  readOnly
                 ></textarea>
               )}
             </div>
@@ -423,7 +513,9 @@ const Registration = () => {
         {/* -------- -------- MEMBERSHIP INFO FORM -------- -------- */}
         <form
           onSubmit={handleFormThreeSubmit}
-          className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%] ${isFormThreeHidden && "hidden"}`}
+          className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%] ${
+            isFormThreeHidden && "hidden"
+          }`}
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Membership information
@@ -437,9 +529,15 @@ const Registration = () => {
               <div className="flex items-center gap-x-2">
                 <input
                   type="radio"
-                  name="membership-type"
+                  name="membershipType"
                   id="monthly"
                   value="monthly"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -451,9 +549,15 @@ const Registration = () => {
               <div className="flex items-center gap-x-2">
                 <input
                   type="radio"
-                  name="membership-type"
+                  name="membershipType"
                   id="annual"
                   value="annual"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -474,9 +578,15 @@ const Registration = () => {
               <div className="flex items-center gap-x-2">
                 <input
                   type="radio"
-                  name="plan-type"
+                  name="planType"
                   id="standard-plan"
-                  value="standard-plan"
+                  value="standard"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -488,9 +598,15 @@ const Registration = () => {
               <div className="flex items-center gap-x-2">
                 <input
                   type="radio"
-                  name="plan-type"
+                  name="planType"
                   id="premium-plan"
-                  value="premium-plan"
+                  value="premium"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -502,13 +618,19 @@ const Registration = () => {
               <div className="flex items-center gap-x-2">
                 <input
                   type="radio"
-                  name="plan-type"
-                  id="platinum"
+                  name="planType"
+                  id="platinum-plan"
                   value="platinum"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
-                  htmlFor="platinum"
+                  htmlFor="platinum-plan"
                   text="Platinum"
                   type="sub"
                 />
@@ -529,7 +651,13 @@ const Registration = () => {
                   type="radio"
                   name="trainer"
                   id="kevin-dias"
-                  value="kevin-dias"
+                  value="Kevin Dias"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -543,7 +671,13 @@ const Registration = () => {
                   type="radio"
                   name="trainer"
                   id="brian-domi"
-                  value="brian-domi"
+                  value="Brian Domi"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -557,7 +691,13 @@ const Registration = () => {
                   type="radio"
                   name="trainer"
                   id="shene-lofi"
-                  value="shene-lofi"
+                  value="Shene Lofi"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -571,7 +711,13 @@ const Registration = () => {
                   type="radio"
                   name="trainer"
                   id="alex-guvi"
-                  value="alex-guvi"
+                  value="Alex Guvi"
+                  onChange={(e) =>
+                    handleMembershipInfoDataChange(
+                      e.target.name,
+                      e.target.value,
+                    )
+                  }
                   required
                 />
                 <RegistrationLabel
@@ -590,7 +736,15 @@ const Registration = () => {
               text="Preferred start date"
             />
             <br />
-            <RegistrationInput type="date" name="start-date" classes="w-2/5" />
+            <RegistrationInput
+              type="date"
+              id="start-date"
+              name="startDate"
+              handleChange={(e) =>
+                handleMembershipInfoDataChange(e.target.name, e.target.value)
+              }
+              classes="w-2/5"
+            />
             <br />
           </fieldset>
 
@@ -632,12 +786,6 @@ const Registration = () => {
 
             <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
           </div>
-        </form>
-        {/* -------- -------- PAYMENT FORM -------- -------- */}
-        <form className={isFormFourHidden && "hidden"}>
-          <h1 className="-translate-y-[30vw] text-center text-3xl">
-            Payment Gateway
-          </h1>
         </form>
       </section>
     </>

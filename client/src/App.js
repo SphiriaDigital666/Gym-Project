@@ -33,7 +33,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminRoot />,
-    errorElement: <Error />,
+    errorElement: <Error />, //Not working
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: "members", element: <AdminMembers /> },
