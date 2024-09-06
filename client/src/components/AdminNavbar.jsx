@@ -53,7 +53,12 @@ const AdminNavbar = () => {
   };
 
   return (
-    <header className="relative bg-secondary">
+    <header
+      onBlur={() => {
+        setIsNavVisible(false);
+      }}
+      className="relative bg-secondary"
+    >
       <nav
         className={`flex h-[100svh] flex-col items-center justify-between bg-primary py-[50%] font-semibold capitalize leading-none ${isNavVisible ? "slide-in-admin-nav" : "reset-admin-nav"}`}
       >
