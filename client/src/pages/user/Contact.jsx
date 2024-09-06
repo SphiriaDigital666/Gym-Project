@@ -34,18 +34,42 @@ const data = [
 ];
 
 const Contact = () => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [contactData, setContactData] = useState({
+    name: "",
+    tel: "",
+    email: "",
+    message: "",
+  });
+
+  const handleContactDataChange = (key, value) => {
+    setContactData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      name: name,
-      number: number,
-      email: email,
-      message: message,
-    });
+    fetch("http://localhost:8080/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contactData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Could not fetch response");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          return console.log("Couldn't send message");
+        }
+        console.log("Message sent successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -110,15 +134,15 @@ const Contact = () => {
             type="text"
             name="name"
             onChange={(e) => {
-              setName(e.target.value);
+              handleContactDataChange(e.target.name, e.target.value);
             }}
             placeholder="Name"
           />
           <Input
-            type="number"
-            name="number"
+            type="tel"
+            name="tel"
             onChange={(e) => {
-              setNumber(e.target.value);
+              handleContactDataChange(e.target.name, e.target.value);
             }}
             placeholder="Number"
           />
@@ -126,7 +150,7 @@ const Contact = () => {
             type="email"
             name="email"
             onChange={(e) => {
-              setEmail(e.target.value);
+              handleContactDataChange(e.target.name, e.target.value);
             }}
             placeholder="Email"
           />
@@ -135,7 +159,7 @@ const Contact = () => {
             rows="4"
             placeholder="Message"
             onChange={(e) => {
-              setMessage(e.target.value);
+              handleContactDataChange(e.target.name, e.target.value);
             }}
             className="mb-[0.7em] w-[28ch] px-[0.8em] py-[0.4em] text-[12px] text-black placeholder:capitalize sm:w-full sm:px-[1em] sm:py-[0.6em] lg:text-[13px] 2xl:text-[14px]"
           ></textarea>
