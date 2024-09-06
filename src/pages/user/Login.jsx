@@ -17,10 +17,21 @@ const Login = () => {
   };
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
+    console.log({
+      email: email,
+      password: password,
+    });
     navigate(`/`);
   };
   const handleRegisterFormSubmit = (e) => {
     e.preventDefault();
+    console.log({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    });
     if (password === confirmPassword) {
       navigate(`/`);
     }
@@ -49,6 +60,7 @@ const Login = () => {
             </h4>
             <input
               type="email"
+              name="email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -58,6 +70,7 @@ const Login = () => {
             />
             <input
               type="password"
+              name="password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -129,6 +142,7 @@ const Login = () => {
             <div className="flex w-full flex-col gap-y-3 sm:flex-row sm:gap-x-[5%]">
               <input
                 type="text"
+                name="firstName"
                 onChange={(e) => {
                   setFirstName(e.target.value);
                 }}
@@ -138,6 +152,7 @@ const Login = () => {
               />
               <input
                 type="text"
+                name="lastName"
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
@@ -148,6 +163,7 @@ const Login = () => {
             </div>
             <input
               type="email"
+              name="email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -157,6 +173,7 @@ const Login = () => {
             />
             <input
               type="password"
+              name="password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -166,6 +183,7 @@ const Login = () => {
             />
             <input
               type="password"
+              name="confirmPassword"
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
               }}

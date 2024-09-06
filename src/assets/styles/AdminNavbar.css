@@ -50,3 +50,9 @@
 .reset-toggle-button {
   animation: reset-toggle-button 1s forwards;
 }
+
+@media (min-width: 640px) {
+  .reset-admin-nav {
+    animation: none;
+  }
+}

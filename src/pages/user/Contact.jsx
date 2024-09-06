@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import ImageSection from "../../components/ImageSection";
 import Input from "../../components/Input";
 
@@ -32,13 +34,27 @@ const data = [
 ];
 
 const Contact = () => {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    console.log({
+      name: name,
+      number: number,
+      email: email,
+      message: message,
+    });
   };
 
   return (
     <>
-      <ImageSection alt="A trainer" bgMobile={bgMobile} bgDesktop={bgDesktop} />
+      <ImageSection
+        alt="An athlete"
+        bgMobile={bgMobile}
+        bgDesktop={bgDesktop}
+      />
       {/* -------- -------- CONTACT INFO SECTION -------- -------- */}
       <section className="px-[10vw] text-center md:px-[5vw]">
         <h2 className="mt-[1.2em] text-[12px] font-medium sm:text-[18px] md:text-[22px] lg:text-[30px] xl:text-[36px] 2xl:text-[42px]">
@@ -71,7 +87,7 @@ const Contact = () => {
         </article>
       </section>
       {/* -------- -------- LOCATION SECTION -------- -------- */}
-      <section className="h-[200px] sm:h-[450px]">
+      {/* <section className="h-[200px] sm:h-[450px]">
         <iframe
           title="location"
           width="100%"
@@ -80,7 +96,7 @@ const Contact = () => {
         >
           <a href="https://www.gps.ie/">gps trackers</a>
         </iframe>
-      </section>
+      </section> */}
       {/* -------- -------- CONTACT FORM SECTION -------- -------- */}
       <section className="bg-[url('./assets/images/Contact/form-bg.png')] bg-cover bg-center px-[10vw] md:px-[5vw]">
         <form
@@ -90,14 +106,37 @@ const Contact = () => {
           <h2 className="mb-[1em] font-semibold leading-tight sm:mb-[0.8em] sm:text-[28px] md:text-[33px] lg:text-[36px] xl:text-[46px] 2xl:text-[55px]">
             Have questions? <br /> Get in touch!
           </h2>
-          <Input type="text" name="name" placeholder="Name" />
-          <Input type="number" name="number" placeholder="Number" />
-          <Input type="email" name="email" placeholder="Email" />
+          <Input
+            type="text"
+            name="name"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            placeholder="Name"
+          />
+          <Input
+            type="number"
+            name="number"
+            onChange={(e) => {
+              setNumber(e.target.value);
+            }}
+            placeholder="Number"
+          />
+          <Input
+            type="email"
+            name="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            placeholder="Email"
+          />
           <textarea
             name="message"
-            id="message"
             rows="4"
             placeholder="Message"
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
             className="mb-[0.7em] w-[28ch] px-[0.8em] py-[0.4em] text-[12px] text-black placeholder:capitalize sm:w-full sm:px-[1em] sm:py-[0.6em] lg:text-[13px] 2xl:text-[14px]"
           ></textarea>
           <button className="mt-[0.8em] self-center bg-primary px-[0.6em] py-[0.3em] text-[13px] font-extrabold uppercase text-black lg:text-[14px] 2xl:text-[15px]">
