@@ -10,13 +10,52 @@ import "../../assets/styles/Registration.css";
 const Registration = () => {
   const [isFormOneHidden, setIsFormOneHidden] = useState(false);
   const [isFormTwoHidden, setIsFormTwoHidden] = useState(true);
+  const [isTextAreaHidden, setIsTextAreaHidden] = useState(true);
   const [isFormThreeHidden, setIsFormThreeHidden] = useState(true);
   const [isFormFourHidden, setIsFormFourHidden] = useState(true);
 
+  const [personalInfo, setPersonalInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    tel: "",
+    DOB: "",
+    gender: "male",
+    addressOne: "",
+    addressTwo: "",
+    currentWeight: "",
+    height: "",
+    goalWeight: "",
+    currentJob: "",
+  });
+
+  const personalInfoDataChange = (key, value) => {
+    setPersonalInfo((prev) => ({ ...prev, [key]: value }));
+  };
+
   const handleFormOneSubmit = (e) => {
     e.preventDefault();
-    setIsFormOneHidden(true);
-    setIsFormTwoHidden(false);
+    fetch("http://localhost:8080/registration", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(personalInfo),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Could not fetch respone");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          return console.log("Could not submit Personal Information");
+        }
+        setIsFormOneHidden(true);
+        setIsFormTwoHidden(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleFormTwoSubmit = (e) => {
     e.preventDefault();
@@ -68,38 +107,56 @@ const Registration = () => {
 
           {/* Full name */}
           <fieldset className="grid grid-cols-2 grid-rows-3 gap-x-4 sm:gap-x-[8%]">
-            <RegistrationLabel
-              htmlFor="first-name"
-              text="Full name"
-              classes="col-span-2"
+            <RegistrationLabel text="Full name" classes="col-span-2" />
+            <RegistrationInput
+              type="text"
+              name="firstName"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
             />
-            <RegistrationInput type="text" name="first-name" />
-            <RegistrationInput type="text" name="last-name" />
+            <RegistrationInput
+              type="text"
+              name="lastName"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
             <RegistrationLabel
-              htmlFor="first-name"
+              htmlFor="firstName"
               text="First name"
               type="sub"
             />
-            <RegistrationLabel
-              htmlFor="last-name"
-              text="Last name"
-              type="sub"
-            />
+            <RegistrationLabel htmlFor="lastName" text="Last name" type="sub" />
           </fieldset>
 
           {/* Email and phone */}
           <fieldset className="grid grid-cols-2 grid-rows-3 gap-x-4 sm:gap-x-[8%]">
             <RegistrationLabel htmlFor="email" text="Email address" />
-            <RegistrationLabel htmlFor="contact" text="Phone number" />
-            <RegistrationInput type="email" name="email" />
-            <RegistrationInput type="tel" name="contact" />
+            <RegistrationLabel htmlFor="tel" text="Phone number" />
+            <RegistrationInput
+              type="email"
+              id="email"
+              name="email"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationInput
+              type="tel"
+              id="tel"
+              name="tel"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
             <RegistrationLabel
               htmlFor="email"
               text="example@example.com"
               type="sub"
             />
             <RegistrationLabel
-              htmlFor="contact"
+              htmlFor="tel"
               text="Valid phone number"
               type="sub"
             />
@@ -109,14 +166,22 @@ const Registration = () => {
           <fieldset className="grid grid-cols-2 grid-rows-2 gap-x-4 sm:gap-x-[8%]">
             <RegistrationLabel htmlFor="dob" text="Date of birth" />
             <RegistrationLabel htmlFor="gender" text="Gender" />
-            <RegistrationInput type="date" name="dob" classes="w-full" />
+            <RegistrationInput
+              type="date"
+              id="dob"
+              name="DOB"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+              classes="w-full"
+            />
             <select
               id="gender"
               name="gender"
-              value="male"
-              onChange={(e) => {
-                console.log(e.target.value);
-              }}
+              value={personalInfo.gender}
+              onChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
               className="border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none md:text-[10px] lg:text-[12px] xl:text-[14px] 2xl:text-[16px]"
             >
               <option value="male">Male</option>
@@ -127,13 +192,27 @@ const Registration = () => {
           {/* Address */}
           <fieldset className="grid grid-cols-1 grid-rows-5 pt-3">
             <RegistrationLabel htmlFor="address-one" text="Address" />
-            <RegistrationInput type="text" name="address-one" />
+            <RegistrationInput
+              type="text"
+              id="address-one"
+              name="addressOne"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
             <RegistrationLabel
               htmlFor="address-one"
               text="Street address"
               type="sub"
             />
-            <RegistrationInput type="text" name="address-two" />
+            <RegistrationInput
+              type="text"
+              id="address-two"
+              name="addressTwo"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
             <RegistrationLabel
               htmlFor="address-two"
               text="Street address line 2"
@@ -145,16 +224,44 @@ const Registration = () => {
           <fieldset className="grid grid-cols-2 grid-rows-2 gap-x-4 sm:gap-x-[8%]">
             <RegistrationLabel htmlFor="current-weight" text="Current weight" />
             <RegistrationLabel htmlFor="height" text="Height" />
-            <RegistrationInput type="number" name="current-weight" />
-            <RegistrationInput type="number" name="height" />
+            <RegistrationInput
+              type="number"
+              id="current-weight"
+              name="currentWeight"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationInput
+              type="number"
+              id="height"
+              name="height"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
           </fieldset>
 
-          {/* Goal weight and job title */}
+          {/* Goal weight and current job title */}
           <fieldset className="grid grid-cols-2 grid-rows-2 gap-x-4 pt-3 sm:gap-x-[8%]">
             <RegistrationLabel htmlFor="goal-weight" text="Goal weight" />
-            <RegistrationLabel htmlFor="job" text="Current job title" />
-            <RegistrationInput type="number" name="goal-weight" />
-            <RegistrationInput type="text" name="job" />
+            <RegistrationLabel htmlFor="current-job" text="Current job title" />
+            <RegistrationInput
+              type="number"
+              id="goal-weight"
+              name="goalWeight"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
+            <RegistrationInput
+              type="text"
+              id="current-job"
+              name="currentJob"
+              handleChange={(e) =>
+                personalInfoDataChange(e.target.name, e.target.value)
+              }
+            />
           </fieldset>
 
           <div className="flex justify-end pt-[1.4em]">
@@ -185,7 +292,7 @@ const Registration = () => {
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${isFormTwoHidden && "hidden"}`}
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
-            Personal information
+            Emergency Contact information
           </h2>
 
           {/* Emergency contact name */}
@@ -240,6 +347,7 @@ const Registration = () => {
                 <input
                   type="radio"
                   name="is-allergic"
+                  onClick={() => setIsTextAreaHidden(false)}
                   id="yes"
                   value="yes"
                   required
@@ -250,6 +358,7 @@ const Registration = () => {
                 <input
                   type="radio"
                   name="is-allergic"
+                  onClick={() => setIsTextAreaHidden(true)}
                   id="no"
                   value="no"
                   required
@@ -257,17 +366,29 @@ const Registration = () => {
                 <RegistrationLabel htmlFor="no" text="No" type="sub" />
               </div>
             </div>
-            <RegistrationLabel
-              htmlFor="allergy-details"
-              text="If yes, please provide details."
-            />
-            <br />
-            <textarea
-              name="allergy-details"
-              id="allergy-details"
-              rows="4"
-              className="w-full border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
-            ></textarea>
+            <div className="pt-[3%]">
+              <RegistrationLabel
+                htmlFor="allergy-details"
+                text="If yes, please provide details."
+              />
+              <br />
+              {!isTextAreaHidden ? (
+                <textarea
+                  name="allergy-details"
+                  id="allergy-details"
+                  rows="4"
+                  className="w-full origin-top border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
+                  required
+                ></textarea>
+              ) : (
+                <textarea
+                  name="allergy-details"
+                  id="allergy-details"
+                  rows="4"
+                  className="w-full origin-top border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
+                ></textarea>
+              )}
+            </div>
           </fieldset>
 
           <div className="flex justify-between pt-[1.4em]">
