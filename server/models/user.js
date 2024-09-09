@@ -33,7 +33,8 @@ const userSchema = new mongoose.Schema({
   membershipInfo: {
     membershipType: String,
     planType: String,
-    trainer: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
+    // trainer: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
+    trainer: String,
     startDate: Date,
   },
   isAdmin: Boolean,

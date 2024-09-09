@@ -86,9 +86,75 @@ app.post("/register", (req, res, next) => {
     });
 });
 
+app.get("/registration", (req, res, next) => {
+  // We'll fetch data for a dummy user until authentication is applied
+  User.findOne({ email: "test@test.com" })
+    .then((user) => {
+      if (!user) {
+        return res.json({ success: false, error: "Could not find user" });
+      }
+
+      const firstName = user.personalInfo.firstName;
+      const lastName = user.personalInfo.lastName;
+      const email = user.email;
+
+      res.json({
+        success: true,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      });
+    })
+    .catch((err) => {
+      console.log("/registration:GET ", err);
+      res.json({
+        success: false,
+        error: "We couldn't fetch your details, but you may continue.",
+      });
+    });
+});
+
 app.post("/registration", (req, res, next) => {
-  console.log(req.body);
-  res.json({ success: true });
+  const email = req.body.personalInfo.email;
+  const personalInfo = {
+    profilePic: "",
+    firstName: req.body.personalInfo.firstName,
+    lastName: req.body.personalInfo.lastName,
+    tel: req.body.personalInfo.tel,
+    DOB: req.body.personalInfo.DOB,
+    gender: req.body.personalInfo.gender,
+    addressOne: req.body.personalInfo.addressOne,
+    addressTwo: req.body.personalInfo.addressTwo,
+    currentWeight: req.body.personalInfo.currentWeight,
+    height: req.body.personalInfo.height,
+    goalWeight: req.body.personalInfo.goalWeight,
+    currentJob: req.body.personalInfo.currentJob,
+  };
+  const emergencyInfo = req.body.emergencyInfo;
+  const medicalInfo = req.body.medicalInfo;
+  const membershipInfo = req.body.membershipInfo;
+
+  // Find a user and update the user. We'll update a dummy user until authentication is implemented
+  User.findOneAndUpdate(
+    { email: "test@test.com" },
+    {
+      email: email,
+      personalInfo: personalInfo,
+      emergencyInfo: emergencyInfo,
+      medicalInfo: medicalInfo,
+      membershipInfo: membershipInfo,
+    }
+  )
+    .then((result) => {
+      console.log(result);
+      res.json({ success: true });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: "Couldn't complete registration. Please try again later",
+      });
+    });
 });
 
 mongoose

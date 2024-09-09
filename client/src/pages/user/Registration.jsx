@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import ImageSection from "../../components/ImageSection";
 import RegistrationLabel from "../../components/RegistrationLabel";
@@ -8,11 +8,12 @@ import bgDesktop from "../../assets/images/Registration/bgDesktop.png";
 import "../../assets/styles/Registration.css";
 
 const Registration = () => {
-  const [isFormOneHidden, setIsFormOneHidden] = useState(false);
+  const [isFormOneHidden, setIsFormOneHidden] = useState(true);
   const [isFormTwoHidden, setIsFormTwoHidden] = useState(true);
-  const [isTextAreaRequired, setIsTextAreaRequired] = useState(false);
   const [isFormThreeHidden, setIsFormThreeHidden] = useState(true);
   const [isFormFourHidden, setIsFormFourHidden] = useState(true);
+  const [isTextAreaRequired, setIsTextAreaRequired] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const [personalInfo, setPersonalInfo] = useState({
     firstName: "",
@@ -45,6 +46,38 @@ const Registration = () => {
     startDate: "",
   });
 
+  useEffect(() => {
+    fetch("http://localhost:8080/registration")
+      .then((response) => {
+        if (!response.ok) {
+          setIsFormOneHidden(false);
+          return setErrorMessage(
+            "We couldn't fetch your details, but you may continue.",
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          setIsFormOneHidden(false);
+          return setErrorMessage(data.error);
+        }
+        setPersonalInfo((prev) => ({
+          ...prev,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+        }));
+        setIsFormOneHidden(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(
+          "We couldn't fetch your details, but you may continue.",
+        );
+      });
+  }, []);
+
   const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));
 
@@ -59,16 +92,11 @@ const Registration = () => {
 
   const handleFormOneSubmit = (e) => {
     e.preventDefault();
-    console.log(personalInfo);
     setIsFormOneHidden(true);
     setIsFormTwoHidden(false);
   };
   const handleFormTwoSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      emergencyInfo: emergencyInfo,
-      medicalInfo: medicalInfo,
-    });
     setIsFormTwoHidden(true);
     setIsFormThreeHidden(false);
   };
@@ -78,8 +106,6 @@ const Registration = () => {
   };
   const handleFormThreeSubmit = (e) => {
     e.preventDefault();
-    console.log(membershipInfo);
-
     fetch("http://localhost:8080/registration", {
       method: "POST",
       headers: {
@@ -94,18 +120,55 @@ const Registration = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Could not fetch response");
+          return setErrorMessage(
+            "Couldn't complete registration. Please try again later.",
+          );
         }
         return response.json();
       })
       .then((data) => {
         if (!data.success) {
-          return console.log("Could not submit registration details");
+          setErrorMessage(data.error);
+          setIsFormThreeHidden(true);
+          return setIsFormOneHidden(false);
         }
+        setPersonalInfo({
+          firstName: "",
+          lastName: "",
+          email: "",
+          tel: "",
+          DOB: "",
+          gender: "male",
+          addressOne: "",
+          addressTwo: "",
+          currentWeight: "",
+          height: "",
+          goalWeight: "",
+          currentJob: "",
+        });
+        setEmergencyInfo({
+          emergencyFirstName: "",
+          emergencyLastName: "",
+          emergencyRelationship: "",
+          emergencyTel: "",
+        });
+        setMedicalInfo({
+          isAllergic: "",
+          allergyDetails: "",
+        });
+        setMembershipInfo({
+          membershipType: "",
+          planType: "",
+          trainer: "",
+          startDate: "",
+        });
         setIsFormThreeHidden(true);
         setIsFormFourHidden(false);
       })
       .catch((err) => {
+        setErrorMessage(
+          "Couldn't complete registration. Please try again later.",
+        );
         console.log(err);
       });
   };
@@ -143,6 +206,13 @@ const Registration = () => {
             />
           </fieldset>
 
+          {/* Error message */}
+          {errorMessage && (
+            <p className="mt-[1.4em] text-[8px] text-red-300 md:text-[10px] lg:text-[12px] xl:text-[14px] 2xl:text-[16px]">
+              {errorMessage}
+            </p>
+          )}
+
           {/* Full name */}
           <fieldset className="grid grid-cols-2 grid-rows-3 gap-x-4 sm:gap-x-[8%]">
             <RegistrationLabel text="Full name" classes="col-span-2" />
@@ -150,6 +220,7 @@ const Registration = () => {
               type="text"
               id="first-name"
               name="firstName"
+              value={personalInfo.firstName}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -158,6 +229,7 @@ const Registration = () => {
               type="text"
               id="last-name"
               name="lastName"
+              value={personalInfo.lastName}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -182,6 +254,7 @@ const Registration = () => {
               type="email"
               id="email"
               name="email"
+              value={personalInfo.email}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -190,6 +263,7 @@ const Registration = () => {
               type="tel"
               id="tel"
               name="tel"
+              value={personalInfo.tel}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -214,6 +288,7 @@ const Registration = () => {
               type="date"
               id="dob"
               name="DOB"
+              value={personalInfo.DOB}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -240,6 +315,7 @@ const Registration = () => {
               type="text"
               id="address-one"
               name="addressOne"
+              value={personalInfo.addressOne}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -253,9 +329,11 @@ const Registration = () => {
               type="text"
               id="address-two"
               name="addressTwo"
+              value={personalInfo.addressTwo}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
+              required={false}
             />
             <RegistrationLabel
               htmlFor="address-two"
@@ -272,6 +350,7 @@ const Registration = () => {
               type="number"
               id="current-weight"
               name="currentWeight"
+              value={personalInfo.currentWeight}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -280,6 +359,7 @@ const Registration = () => {
               type="number"
               id="height"
               name="height"
+              value={personalInfo.height}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -294,6 +374,7 @@ const Registration = () => {
               type="number"
               id="goal-weight"
               name="goalWeight"
+              value={personalInfo.goalWeight}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -302,6 +383,7 @@ const Registration = () => {
               type="text"
               id="current-job"
               name="currentJob"
+              value={personalInfo.currentJob}
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
@@ -351,6 +433,7 @@ const Registration = () => {
               type="text"
               id="emergency-first-name"
               name="emergencyFirstName"
+              value={emergencyInfo.emergencyFirstName}
               handleChange={(e) =>
                 handleEmergencyInfoDataChange(e.target.name, e.target.value)
               }
@@ -359,6 +442,7 @@ const Registration = () => {
               type="text"
               id="emergency-last-name"
               name="emergencyLastName"
+              value={emergencyInfo.emergencyLastName}
               handleChange={(e) =>
                 handleEmergencyInfoDataChange(e.target.name, e.target.value)
               }
@@ -386,6 +470,7 @@ const Registration = () => {
               type="text"
               id="emergency-relationship"
               name="emergencyRelationship"
+              value={emergencyInfo.emergencyRelationship}
               handleChange={(e) =>
                 handleEmergencyInfoDataChange(e.target.name, e.target.value)
               }
@@ -394,6 +479,7 @@ const Registration = () => {
               type="tel"
               id="emergency-tel"
               name="emergencyTel"
+              value={emergencyInfo.emergencyTel}
               handleChange={(e) =>
                 handleEmergencyInfoDataChange(e.target.name, e.target.value)
               }
@@ -514,7 +600,7 @@ const Registration = () => {
         <form
           onSubmit={handleFormThreeSubmit}
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%] ${
-            isFormThreeHidden && "hidden"
+            isFormThreeHidden ? "hidden" : ""
           }`}
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
@@ -789,7 +875,7 @@ const Registration = () => {
         </form>
         {/* -------- -------- PAYMENT FORM -------- -------- */}
         <form className={isFormFourHidden ? "hidden" : ""}>
-          <h1 className="-translate-y-[30vw] text-center text-3xl">
+          <h1 className="mb-[6%] -translate-y-[30vw] text-center text-3xl">
             Payment Gateway
           </h1>
         </form>
