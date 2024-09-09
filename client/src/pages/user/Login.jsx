@@ -151,6 +151,7 @@ const Login = () => {
               type="reset"
               onClick={() => {
                 setErrorMessage(undefined);
+                setLoginData({ email: "", password: "" });
               }}
               className="px-[0.6em] py-[0.3em] text-[11px] font-semibold leading-[0] text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
             >
@@ -292,6 +293,13 @@ const Login = () => {
               type="reset"
               onClick={() => {
                 setErrorMessage(undefined);
+                setRegisterData({
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
+                });
               }}
               className="px-[0.6em] py-[0.3em] text-[11px] font-semibold leading-[0] text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
             >

@@ -14,22 +14,34 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
 app.post("/contact", (req, res, next) => {
   console.log(req.body);
   res.json({ success: true });
 });
+
 app.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // User.findById(id, projection, options)
-  // const email = req.body.email;
-  // if (email === "admin@admin.com") {
-  //   return res.json({ success: true, isAdmin: true });
-  // }
-  // res.json({ success: true, isAdmin: false });
-  res.json({ success: false, error: "Login failed" });
+  // Finding a user matching the given email and password
+  User.findOne({ email: email, password: password })
+    .then((user) => {
+      // Sending an error message if user is not found
+      if (!user) {
+        return res.json({ success: false, error: "Invalid email or password" });
+      }
+      // Checking if user is an admin
+      if (user.isAdmin) {
+        return res.json({ success: true, isAdmin: true });
+      }
+      res.json({ success: true, isAdmin: false });
+    })
+    .catch((err) => {
+      res.json({ success: false, error: "Login failed" });
+    });
 });
+
 app.post("/register", (req, res, next) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -73,6 +85,7 @@ app.post("/register", (req, res, next) => {
       });
     });
 });
+
 app.post("/registration", (req, res, next) => {
   console.log(req.body);
   res.json({ success: true });

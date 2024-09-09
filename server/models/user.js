@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     trainer: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
     startDate: Date,
   },
+  isAdmin: Boolean,
 });
 
 module.exports = mongoose.model("User", userSchema);
