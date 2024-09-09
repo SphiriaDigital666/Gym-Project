@@ -787,6 +787,12 @@ const Registration = () => {
             <div className="size-[12px] rounded-full border-2 border-primary sm:size-[16px] md:size-[20px] lg:size-[24px] xl:size-[28px] 2xl:size-[32px]"></div>
           </div>
         </form>
+        {/* -------- -------- PAYMENT FORM -------- -------- */}
+        <form className={isFormFourHidden ? "hidden" : ""}>
+          <h1 className="-translate-y-[30vw] text-center text-3xl">
+            Payment Gateway
+          </h1>
+        </form>
       </section>
     </>
   );

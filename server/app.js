@@ -1,7 +1,9 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const app = express();
 const port = 8080;
+const uri = "mongodb://localhost:27017/";
 
 app.use(express.json());
 
@@ -32,4 +34,11 @@ app.post("/registration", (req, res, next) => {
   res.json({ success: true });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+mongoose
+  .connect(uri)
+  .then((result) => {
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
