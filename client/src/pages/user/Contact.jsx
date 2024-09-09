@@ -40,6 +40,10 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [message, setMessage] = useState({
+    type: undefined,
+    content: "",
+  });
 
   const handleContactDataChange = (key, value) => {
     setContactData((prev) => ({
@@ -49,25 +53,52 @@ const Contact = () => {
   };
 
   const handleFormSubmit = (e) => {
+    const key = "851ce789-4331-4af9-ba34-311f82cd79ef";
     e.preventDefault();
-    fetch("http://localhost:8080/contact", {
+    fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(contactData),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        ...contactData,
+        access_key: "851ce789-4331-4af9-ba34-311f82cd79ef",
+      }),
     })
       .then((response) => {
         if (!response.ok) {
+          setMessage({
+            type: "error",
+            content: "Operation failed. Please try again later.",
+          });
           throw new Error("Could not fetch response");
         }
         return response.json();
       })
       .then((data) => {
         if (!data.success) {
-          return console.log("Couldn't send message");
+          return setMessage({
+            type: "error",
+            content: "Operation failed. Please try again later.",
+          });
         }
-        console.log("Message sent successfully!");
+        setContactData({
+          name: "",
+          tel: "",
+          email: "",
+          message: "",
+        });
+        setMessage({
+          type: "success",
+          content: "Message sent successfully!",
+        });
       })
       .catch((err) => {
+        setMessage({
+          type: "error",
+          content: "Operation failed. Please try again later.",
+        });
         console.log(err);
       });
   };
@@ -130,9 +161,23 @@ const Contact = () => {
           <h2 className="mb-[1em] font-semibold leading-tight sm:mb-[0.8em] sm:text-[28px] md:text-[33px] lg:text-[36px] xl:text-[46px] 2xl:text-[55px]">
             Have questions? <br /> Get in touch!
           </h2>
+          {message.type && (
+            <p
+              className={`mb-[1em] mt-[0.8em] text-[8px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px] ${message.type === "success" ? "text-green-300" : ""} ${message.type === "error" ? "text-red-300" : ""} ${message.type === "progress" ? "animate-pulse text-white" : ""}`}
+            >
+              {message.content}
+            </p>
+          )}
           <Input
             type="text"
             name="name"
+            value={contactData.name}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
             onChange={(e) => {
               handleContactDataChange(e.target.name, e.target.value);
             }}
@@ -141,6 +186,13 @@ const Contact = () => {
           <Input
             type="tel"
             name="tel"
+            value={contactData.tel}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
             onChange={(e) => {
               handleContactDataChange(e.target.name, e.target.value);
             }}
@@ -149,6 +201,13 @@ const Contact = () => {
           <Input
             type="email"
             name="email"
+            value={contactData.email}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
             onChange={(e) => {
               handleContactDataChange(e.target.name, e.target.value);
             }}
@@ -158,12 +217,28 @@ const Contact = () => {
             name="message"
             rows="4"
             placeholder="Message"
+            value={contactData.message}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
             onChange={(e) => {
               handleContactDataChange(e.target.name, e.target.value);
             }}
             className="mb-[0.7em] w-[28ch] px-[0.8em] py-[0.4em] text-[12px] text-black placeholder:capitalize sm:w-full sm:px-[1em] sm:py-[0.6em] lg:text-[13px] 2xl:text-[14px]"
+            required
           ></textarea>
-          <button className="mt-[0.8em] self-center bg-primary px-[0.6em] py-[0.3em] text-[13px] font-extrabold uppercase text-black lg:text-[14px] 2xl:text-[15px]">
+          <button
+            onClick={() =>
+              setMessage({
+                type: "progress",
+                content: "Operation in progress",
+              })
+            }
+            className="mt-[0.8em] self-center bg-primary px-[0.6em] py-[0.3em] text-[13px] font-extrabold uppercase text-black lg:text-[14px] 2xl:text-[15px]"
+          >
             Send
           </button>
         </form>
