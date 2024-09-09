@@ -19,7 +19,10 @@ app.post("/contact", (req, res, next) => {
   res.json({ success: true });
 });
 app.post("/login", (req, res, next) => {
-  console.log(req.body);
+  const email = req.body.email;
+  const password = req.body.password;
+
+  // User.findById(id, projection, options)
   // const email = req.body.email;
   // if (email === "admin@admin.com") {
   //   return res.json({ success: true, isAdmin: true });
@@ -34,26 +37,40 @@ app.post("/register", (req, res, next) => {
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
+  // Check whether password and confirmPassword are same
   if (password !== confirmPassword) {
     return res.json({ success: false, error: "Passwords must match" });
   }
 
-  const user = new User({
-    email: email,
-    password: password,
-    personalInfo: {
-      firstName: firstName,
-      lastName: lastName,
-    },
-  });
-
-  user
-    .save()
+  // Can't allow users to create new accounts with emails that are associated with existing accounts
+  User.findOne({ email: email })
+    .then((user) => {
+      if (user) {
+        return { success: false, error: "Email already taken" };
+      }
+      // Create a new user with the input data
+      const newUser = new User({
+        email: email,
+        password: password,
+        personalInfo: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      });
+      // Save the user in the database
+      return newUser.save();
+    })
     .then((result) => {
-      res.json({ success: true });
+      if (result.error) {
+        return res.json(result);
+      }
+      return res.json({ success: true });
     })
     .catch((err) => {
-      res.json({ success: false, error: "Couldn't sign up" });
+      res.json({
+        success: false,
+        error: "Couldn't sign up. Please try again later.",
+      });
     });
 });
 app.post("/registration", (req, res, next) => {

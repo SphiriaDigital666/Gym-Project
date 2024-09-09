@@ -73,6 +73,13 @@ const Login = () => {
         if (!data.success) {
           return setErrorMessage(data.error);
         }
+        setRegisterData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
         handleClick();
       })
       .catch((err) => {
@@ -109,6 +116,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              value={loginData.email}
               onClick={() => {
                 setErrorMessage(undefined);
               }}
@@ -122,6 +130,7 @@ const Login = () => {
             <input
               type="password"
               name="password"
+              value={loginData.password}
               onClick={() => {
                 setErrorMessage(undefined);
               }}
@@ -205,6 +214,7 @@ const Login = () => {
               <input
                 type="text"
                 name="firstName"
+                value={registerData.firstName}
                 onClick={() => {
                   setErrorMessage(undefined);
                 }}
@@ -218,6 +228,7 @@ const Login = () => {
               <input
                 type="text"
                 name="lastName"
+                value={registerData.lastName}
                 onClick={() => {
                   setErrorMessage(undefined);
                 }}
@@ -232,6 +243,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              value={registerData.email}
               onClick={() => {
                 setErrorMessage(undefined);
               }}
@@ -245,6 +257,7 @@ const Login = () => {
             <input
               type="password"
               name="password"
+              value={registerData.password}
               onClick={() => {
                 setErrorMessage(undefined);
               }}
@@ -258,6 +271,7 @@ const Login = () => {
             <input
               type="password"
               name="confirmPassword"
+              value={registerData.confirmPassword}
               onClick={() => {
                 setErrorMessage(undefined);
               }}
