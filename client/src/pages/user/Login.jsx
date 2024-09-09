@@ -65,7 +65,7 @@ const Login = () => {
     })
       .then((result) => {
         if (!result.ok) {
-          throw new Error("Could not fetch response");
+          return setErrorMessage("Couldn't sign up, please try again later.");
         }
         return result.json();
       })
@@ -73,17 +73,20 @@ const Login = () => {
         if (!data.success) {
           return setErrorMessage(data.error);
         }
-        setRegisterData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        handleClick();
+        if (data.success) {
+          setRegisterData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+          handleClick();
+        }
       })
       .catch((err) => {
         console.log(err);
+        setErrorMessage("Couldn't sign up, please try again later.");
       });
   };
 

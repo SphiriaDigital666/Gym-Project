@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const User = require("./models/user");
 
 const app = express();
@@ -58,12 +59,20 @@ app.post("/register", (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (user) {
-        return { success: false, error: "Email already taken" };
+        // return { success: false, error: "Email already taken" };
+        throw new Error("Email already taken");
       }
-      // Create a new user with the input data
+      // Hash the user's password
+      return bcrypt.hash(password, 12);
+    })
+    .then((result) => {
+      // if (result.error) {
+      //   return result;
+      // }
+      // Create a new user with the input data and hashed password
       const newUser = new User({
         email: email,
-        password: password,
+        password: result,
         personalInfo: {
           firstName: firstName,
           lastName: lastName,
@@ -73,15 +82,22 @@ app.post("/register", (req, res, next) => {
       return newUser.save();
     })
     .then((result) => {
-      if (result.error) {
-        return res.json(result);
-      }
-      return res.json({ success: true });
+      // if (result.error) {
+      //   return res.json(result);
+      // }
+      res.json({ success: true });
     })
     .catch((err) => {
+      // we'll send a custom error message if one is set, otherwise we'll send a default message.
+      if (err.message) {
+        return res.json({
+          success: false,
+          error: err.message,
+        });
+      }
       res.json({
         success: false,
-        error: "Couldn't sign up. Please try again later.",
+        error: "Couldn't sign up, please try again later.",
       });
     });
 });

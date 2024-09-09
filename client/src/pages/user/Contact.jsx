@@ -53,7 +53,6 @@ const Contact = () => {
   };
 
   const handleFormSubmit = (e) => {
-    const key = "851ce789-4331-4af9-ba34-311f82cd79ef";
     e.preventDefault();
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
