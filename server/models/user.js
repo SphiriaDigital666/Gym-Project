@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     membershipType: String,
     planType: String,
     trainer: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
-    startDate: "2024-09-28",
+    startDate: Date,
   },
 });
 

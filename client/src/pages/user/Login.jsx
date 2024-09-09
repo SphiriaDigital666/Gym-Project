@@ -12,10 +12,12 @@ const Login = () => {
     password: "",
     confirmPassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
+    setErrorMessage(undefined);
     setIsToggled((prev) => !prev);
   };
   const handleLoginInputChange = (key, value) => {
@@ -46,7 +48,7 @@ const Login = () => {
       })
       .then((data) => {
         if (!data.success) {
-          return console.log("Couldn't Sign In");
+          return setErrorMessage(data.error);
         }
         data.isAdmin ? navigate("/admin") : navigate("/");
       })
@@ -68,7 +70,10 @@ const Login = () => {
         return result.json();
       })
       .then((data) => {
-        data.success ? navigate("/") : console.log("Couldn't Sign Up");
+        if (!data.success) {
+          return setErrorMessage(data.error);
+        }
+        handleClick();
       })
       .catch((err) => {
         console.log(err);
@@ -96,9 +101,17 @@ const Login = () => {
             <h4 className="font-semibold text-primary underline sm:text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px]">
               Sign in
             </h4>
+            {isToggled && errorMessage && (
+              <p className="text-[10px] text-red-400 sm:text-[12px] md:text-[15px] lg:text-[18px] xl:text-[20px]">
+                {errorMessage}
+              </p>
+            )}
             <input
               type="email"
               name="email"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               onChange={(e) => {
                 handleLoginInputChange(e.target.name, e.target.value);
               }}
@@ -109,6 +122,9 @@ const Login = () => {
             <input
               type="password"
               name="password"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               onChange={(e) => {
                 handleLoginInputChange(e.target.name, e.target.value);
               }}
@@ -124,6 +140,9 @@ const Login = () => {
             </button>
             <button
               type="reset"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               className="px-[0.6em] py-[0.3em] text-[11px] font-semibold leading-[0] text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
             >
               Cancel
@@ -177,10 +196,18 @@ const Login = () => {
             <h4 className="font-semibold text-primary underline sm:text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px]">
               Sign up
             </h4>
+            {!isToggled && errorMessage && (
+              <p className="text-[10px] text-red-400 sm:text-[12px] md:text-[15px] lg:text-[18px] xl:text-[20px]">
+                {errorMessage}
+              </p>
+            )}
             <div className="flex w-full flex-col gap-y-3 sm:flex-row sm:gap-x-[5%]">
               <input
                 type="text"
                 name="firstName"
+                onClick={() => {
+                  setErrorMessage(undefined);
+                }}
                 onChange={(e) => {
                   handleRegisterInputChange(e.target.name, e.target.value);
                 }}
@@ -191,6 +218,9 @@ const Login = () => {
               <input
                 type="text"
                 name="lastName"
+                onClick={() => {
+                  setErrorMessage(undefined);
+                }}
                 onChange={(e) => {
                   handleRegisterInputChange(e.target.name, e.target.value);
                 }}
@@ -202,6 +232,9 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               onChange={(e) => {
                 handleRegisterInputChange(e.target.name, e.target.value);
               }}
@@ -212,6 +245,9 @@ const Login = () => {
             <input
               type="password"
               name="password"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               onChange={(e) => {
                 handleRegisterInputChange(e.target.name, e.target.value);
               }}
@@ -222,6 +258,9 @@ const Login = () => {
             <input
               type="password"
               name="confirmPassword"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               onChange={(e) => {
                 handleRegisterInputChange(e.target.name, e.target.value);
               }}
@@ -237,6 +276,9 @@ const Login = () => {
             </button>
             <button
               type="reset"
+              onClick={() => {
+                setErrorMessage(undefined);
+              }}
               className="px-[0.6em] py-[0.3em] text-[11px] font-semibold leading-[0] text-primary sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px]"
             >
               Cancel
