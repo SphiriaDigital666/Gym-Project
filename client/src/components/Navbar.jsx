@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 
+import profilePic from "../assets/images/Navbar/profile-pic.png";
 import "../assets/styles/Navbar.css";
 
 const links = [
@@ -51,10 +52,14 @@ const Navbar = ({ isLoggedIn }) => {
           <NavLink
             to={isLoggedIn ? "/profile" : "/login"}
             className={({ isActive }) =>
-              `bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black ${isActive ? "" : "hover:opacity-70"}`
+              `${isLoggedIn ? "" : "bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
             }
           >
-            {isLoggedIn ? "Profile" : "Sign Up"}
+            {isLoggedIn ? (
+              <img src={profilePic} alt="Profile" className="inline" />
+            ) : (
+              "Sign Up"
+            )}
           </NavLink>
         </nav>
         <button
@@ -70,17 +75,6 @@ const Navbar = ({ isLoggedIn }) => {
         onClick={handleClick}
       >
         <nav className="flex w-full flex-col px-[10vw] pb-8 text-xs">
-          {/* {links.map(({ name, path }) => (
-            <NavLink
-              key={path}
-              to={path}
-              className={({ isActive }) =>
-                `${path === "/login" ? "mt-8 w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black" : "text-lift py-4"} ${isActive && path !== "/login" ? "text-primary" : "hover:opacity-70"} ${path !== "/" && path !== "/login" && "mt-4"}`
-              }
-            >
-              {name}
-            </NavLink>
-          ))} */}
           {links.map(({ name, path }) => (
             <NavLink
               key={path}
@@ -95,10 +89,10 @@ const Navbar = ({ isLoggedIn }) => {
           <NavLink
             to={isLoggedIn ? "/profile" : "/login"}
             className={({ isActive }) =>
-              `mt-8 w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black ${isActive ? "" : "hover:opacity-70"}`
+              `mt-8 ${isLoggedIn ? "bg-transparent" : "w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
             }
           >
-            {isLoggedIn ? "Profile" : "Sign Up"}
+            {isLoggedIn ? <img src={profilePic} alt="Profile" /> : "Sign Up"}
           </NavLink>
         </nav>
       </section>

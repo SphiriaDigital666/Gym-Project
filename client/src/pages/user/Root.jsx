@@ -11,6 +11,7 @@ const Root = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    setIsLoggedIn(false);
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -21,7 +22,6 @@ const Root = () => {
       } catch (error) {
         console.log("token has been tampered with");
         localStorage.removeItem("token");
-        setIsLoggedIn(false);
       }
     }
   }, [path]);
