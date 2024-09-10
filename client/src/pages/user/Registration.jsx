@@ -84,7 +84,7 @@ const Registration = () => {
           "We couldn't fetch your details, please try again later.",
         );
       });
-  });
+  }, [navigate]);
 
   const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));

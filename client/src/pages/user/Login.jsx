@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../assets/styles/Login.css";
 
 const Login = () => {
@@ -13,8 +13,6 @@ const Login = () => {
     confirmPassword: "",
   });
   const [errorMessage, setErrorMessage] = useState(undefined);
-
-  const navigate = useNavigate();
 
   const handleClick = () => {
     setErrorMessage(undefined);
@@ -51,7 +49,9 @@ const Login = () => {
           return setErrorMessage(data.error);
         }
         localStorage.setItem("token", data.token);
-        data.isAdmin ? navigate("/admin") : navigate("/");
+        data.isAdmin
+          ? (window.location.href = "/admin")
+          : (window.location.href = "/");
       })
       .catch((err) => {
         console.log(err);

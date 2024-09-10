@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 
 import "../assets/styles/Navbar.css";
 
@@ -17,33 +16,10 @@ const links = [
     name: "Contact",
     path: "/contact",
   },
-  // {
-  //   name: "Sign up",
-  //   path: "/login",
-  // },
 ];
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Navbar = ({ isLoggedIn }) => {
   const [isToggled, setIsToggled] = useState(false);
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-
-        if (decoded) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.log("token has been tampered with");
-        localStorage.removeItem("token");
-        console.log(error.message);
-      }
-    }
-  }, []);
-
   const handleClick = () => {
     setIsToggled((prev) => !prev);
   };
@@ -62,15 +38,6 @@ const Navbar = () => {
         </h1>
         <nav className="hidden space-x-8 text-xs capitalize md:block xl:space-x-16 2xl:text-base">
           {links.map(({ name, path }) => (
-            // <NavLink
-            //   key={path}
-            //   to={path}
-            //   className={({ isActive }) =>
-            //     `${path === "/login" ? "bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black" : "text-lift"} ${isActive && path !== "/login" ? "text-primary" : "hover:opacity-70"}`
-            //   }
-            // >
-            //   {name}
-            // </NavLink>
             <NavLink
               key={path}
               to={path}
@@ -103,7 +70,7 @@ const Navbar = () => {
         onClick={handleClick}
       >
         <nav className="flex w-full flex-col px-[10vw] pb-8 text-xs">
-          {links.map(({ name, path }) => (
+          {/* {links.map(({ name, path }) => (
             <NavLink
               key={path}
               to={path}
@@ -113,7 +80,26 @@ const Navbar = () => {
             >
               {name}
             </NavLink>
+          ))} */}
+          {links.map(({ name, path }) => (
+            <NavLink
+              key={path}
+              to={path}
+              className={({ isActive }) =>
+                `text-lift py-4 ${isActive ? "text-primary" : "hover:opacity-70"} ${path !== "/" && "mt-4"}`
+              }
+            >
+              {name}
+            </NavLink>
           ))}
+          <NavLink
+            to={isLoggedIn ? "/profile" : "/login"}
+            className={({ isActive }) =>
+              `mt-8 w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black ${isActive ? "" : "hover:opacity-70"}`
+            }
+          >
+            {isLoggedIn ? "Profile" : "Sign Up"}
+          </NavLink>
         </nav>
       </section>
     </header>
