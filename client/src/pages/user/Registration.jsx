@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ImageSection from "../../components/ImageSection";
 import RegistrationLabel from "../../components/RegistrationLabel";
@@ -8,6 +9,7 @@ import bgDesktop from "../../assets/images/Registration/bgDesktop.png";
 import "../../assets/styles/Registration.css";
 
 const Registration = () => {
+  const navigate = useNavigate();
   const [isFormOneHidden, setIsFormOneHidden] = useState(true);
   const [isFormTwoHidden, setIsFormTwoHidden] = useState(true);
   const [isFormThreeHidden, setIsFormThreeHidden] = useState(true);
@@ -47,20 +49,26 @@ const Registration = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:8080/registration")
+    const token = localStorage.getItem("token");
+
+    fetch("http://localhost:8080/registration", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           setIsFormOneHidden(false);
           return setErrorMessage(
-            "We couldn't fetch your details, but you may continue.",
+            "We couldn't fetch your details, please try again later.",
           );
         }
         return response.json();
       })
       .then((data) => {
         if (!data.success) {
-          setIsFormOneHidden(false);
-          return setErrorMessage(data.error);
+          localStorage.removeItem("token");
+          return navigate("/login");
         }
         setPersonalInfo((prev) => ({
           ...prev,
@@ -73,7 +81,7 @@ const Registration = () => {
       .catch((err) => {
         console.log(err);
         setErrorMessage(
-          "We couldn't fetch your details, but you may continue.",
+          "We couldn't fetch your details, please try again later.",
         );
       });
   }, []);

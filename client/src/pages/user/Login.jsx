@@ -50,6 +50,7 @@ const Login = () => {
         if (!data.success) {
           return setErrorMessage(data.error);
         }
+        localStorage.setItem("token", data.token);
         data.isAdmin ? navigate("/admin") : navigate("/");
       })
       .catch((err) => {
