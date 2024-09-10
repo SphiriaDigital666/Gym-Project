@@ -24,13 +24,22 @@ app.post("/contact", (req, res, next) => {
 app.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  let user;
 
-  // Finding a user matching the given email and password
-  User.findOne({ email: email, password: password })
-    .then((user) => {
+  // Finding a user matching the given email
+  User.findOne({ email: email })
+    .then((fetchedUser) => {
       // Sending an error message if user is not found
-      if (!user) {
-        return res.json({ success: false, error: "Invalid email or password" });
+      if (!fetchedUser) {
+        throw new Error("Invalid email or password");
+      }
+      user = fetchedUser;
+      // Comparing the hashed password and entered password
+      return bcrypt.compare(password, user.password);
+    })
+    .then((result) => {
+      if (!result) {
+        throw new Error("Invalid email or password");
       }
       // Checking if user is an admin
       if (user.isAdmin) {
@@ -39,7 +48,17 @@ app.post("/login", (req, res, next) => {
       res.json({ success: true, isAdmin: false });
     })
     .catch((err) => {
-      res.json({ success: false, error: "Login failed" });
+      // we'll send a custom error message if one is set, otherwise we'll send a default message.
+      if (err.message) {
+        return res.json({
+          success: false,
+          error: err.message,
+        });
+      }
+      res.json({
+        success: false,
+        error: "Couldn't sign in, please try again later.",
+      });
     });
 });
 
@@ -59,20 +78,16 @@ app.post("/register", (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (user) {
-        // return { success: false, error: "Email already taken" };
         throw new Error("Email already taken");
       }
       // Hash the user's password
       return bcrypt.hash(password, 12);
     })
-    .then((result) => {
-      // if (result.error) {
-      //   return result;
-      // }
+    .then((hashedPassword) => {
       // Create a new user with the input data and hashed password
       const newUser = new User({
         email: email,
-        password: result,
+        password: hashedPassword,
         personalInfo: {
           firstName: firstName,
           lastName: lastName,
@@ -82,9 +97,6 @@ app.post("/register", (req, res, next) => {
       return newUser.save();
     })
     .then((result) => {
-      // if (result.error) {
-      //   return res.json(result);
-      // }
       res.json({ success: true });
     })
     .catch((err) => {
