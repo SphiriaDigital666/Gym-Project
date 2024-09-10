@@ -16,6 +16,7 @@ const Registration = () => {
   const [isFormFourHidden, setIsFormFourHidden] = useState(true);
   const [isTextAreaRequired, setIsTextAreaRequired] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const [price, setPrice] = useState(0);
 
   const [personalInfo, setPersonalInfo] = useState({
     firstName: "",
@@ -86,17 +87,49 @@ const Registration = () => {
       });
   }, [navigate]);
 
+  useEffect(() => {
+    let months;
+    let packageValue;
+
+    switch (membershipInfo.membershipType) {
+      case "annual":
+        months = 11;
+        break;
+      case "monthly":
+        months = 1;
+        break;
+      default:
+        months = 1;
+        break;
+    }
+
+    switch (membershipInfo.planType) {
+      case "standard":
+        packageValue = 10;
+        break;
+      case "premium":
+        packageValue = 20;
+        break;
+      case "platinum":
+        packageValue = 30;
+        break;
+      default:
+        packageValue = 0;
+        break;
+    }
+
+    setPrice(months * packageValue);
+  }, [membershipInfo.membershipType, membershipInfo.planType]);
+
   const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));
-
   const handleEmergencyInfoDataChange = (key, value) =>
     setEmergencyInfo((prev) => ({ ...prev, [key]: value }));
-
   const handleMedicalInfoDataChange = (key, value) =>
     setMedicalInfo((prev) => ({ ...prev, [key]: value }));
-
   const handleMembershipInfoDataChange = (key, value) =>
     setMembershipInfo((prev) => ({ ...prev, [key]: value }));
+  const calculatePrice = () => {};
 
   const handleFormOneSubmit = (e) => {
     e.preventDefault();
@@ -736,7 +769,7 @@ const Registration = () => {
           </fieldset>
 
           {/* Total Fee */}
-          <RegistrationLabel text="Total fee: $ 35" />
+          <RegistrationLabel text={`Total fee: $ ${price}`} />
 
           {/* Trainer */}
           <fieldset className="pt-[3%]">
