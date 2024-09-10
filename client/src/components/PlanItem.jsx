@@ -11,7 +11,7 @@ const data = [
   "24 hour service",
 ];
 
-const PlanItem = ({ image, title, price, features }) => {
+const PlanItem = ({ image, title, price, features, to }) => {
   return (
     <article className="mt-6 w-[180px] max-w-[280px] flex-grow bg-white text-black">
       <figure>
@@ -43,7 +43,7 @@ const PlanItem = ({ image, title, price, features }) => {
             </li>
           );
         })}
-        <Link to="/login">
+        <Link to={to}>
           <button className="mx-auto my-4 w-fit bg-primary px-[1.2em] py-[0.6em] text-[10px] font-extrabold uppercase text-black lg:text-[11px]">
             Join today
           </button>
