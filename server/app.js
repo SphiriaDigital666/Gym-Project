@@ -19,11 +19,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/contact", (req, res, next) => {
-  console.log(req.body);
-  res.json({ success: true });
-});
-
 app.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -195,7 +190,47 @@ app.get("/registration", (req, res, next) => {
 });
 
 app.post("/registration", (req, res, next) => {
-  const email = req.body.personalInfo.email;
+  // Check whether authorization headers are set
+  if (!req.headers.authorization) {
+    return res.json({
+      success: false,
+      error: "Couldn't verify user",
+    });
+  }
+
+  // Make sure authorization header is valid
+  const authFragments = req.headers.authorization.split(" ");
+  if (authFragments.length !== 2) {
+    return res.json({
+      success: false,
+      error: "Couldn't verify user",
+    });
+  }
+
+  // Verify the token
+  const authToken = authFragments[1];
+  let email;
+  try {
+    const decodedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    email = decodedToken.email;
+    if (!email) {
+      throw new Error("User not found.");
+    }
+  } catch (err) {
+    // we'll send a custom error message if one is set, otherwise we'll send a default message.
+    if (err.message) {
+      return res.json({
+        success: false,
+        error: err.message,
+      });
+    }
+    res.json({
+      success: false,
+      error: "Couldn't verify user",
+    });
+  }
+
+  // const newEmail = req.body.personalInfo.email;
   const personalInfo = {
     profilePic: "",
     firstName: req.body.personalInfo.firstName,
@@ -216,9 +251,9 @@ app.post("/registration", (req, res, next) => {
 
   // Find a user and update the user. We'll update a dummy user until authentication is implemented
   User.findOneAndUpdate(
-    { email: "test@test.com" },
+    { email: email },
     {
-      email: email,
+      // email: newEmail,
       personalInfo: personalInfo,
       emergencyInfo: emergencyInfo,
       medicalInfo: medicalInfo,

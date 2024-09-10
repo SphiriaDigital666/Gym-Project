@@ -113,11 +113,13 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
+    const token = localStorage.getItem("token");
     e.preventDefault();
     fetch("http://localhost:8080/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         personalInfo: personalInfo,
@@ -266,6 +268,7 @@ const Registration = () => {
               handleChange={(e) =>
                 handlePersonalInfoDataChange(e.target.name, e.target.value)
               }
+              readOnly={true}
             />
             <RegistrationInput
               type="tel"
