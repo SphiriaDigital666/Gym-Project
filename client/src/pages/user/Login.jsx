@@ -48,7 +48,12 @@ const Login = () => {
         if (!data.success) {
           return setErrorMessage(data.error);
         }
+        const expiration = new Date();
+        expiration.setHours(expiration.getHours() + 1);
+
         localStorage.setItem("token", data.token);
+        localStorage.setItem("expiration", expiration.toISOString());
+
         data.isAdmin
           ? (window.location.href = "/admin")
           : (window.location.href = "/");
