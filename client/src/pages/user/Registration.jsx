@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 import ImageSection from "../../components/ImageSection";
 import RegistrationLabel from "../../components/RegistrationLabel";
@@ -9,7 +9,8 @@ import bgDesktop from "../../assets/images/Registration/bgDesktop.png";
 import "../../assets/styles/Registration.css";
 
 const Registration = () => {
-  const navigate = useNavigate();
+  const token = useRouteLoaderData("root");
+
   const [isFormOneHidden, setIsFormOneHidden] = useState(true);
   const [isFormTwoHidden, setIsFormTwoHidden] = useState(true);
   const [isFormThreeHidden, setIsFormThreeHidden] = useState(true);
@@ -50,8 +51,6 @@ const Registration = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     fetch("http://localhost:8080/registration", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -68,8 +67,9 @@ const Registration = () => {
       })
       .then((data) => {
         if (!data.success) {
-          localStorage.removeItem("token");
-          return navigate("/login");
+          return setErrorMessage(
+            "We couldn't fetch your details, please try again later.",
+          );
         }
         setPersonalInfo((prev) => ({
           ...prev,
@@ -85,7 +85,7 @@ const Registration = () => {
           "We couldn't fetch your details, please try again later.",
         );
       });
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     let months;

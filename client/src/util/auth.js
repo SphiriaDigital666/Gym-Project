@@ -1,10 +1,9 @@
 import { jwtDecode } from "jwt-decode";
+import { redirect } from "react-router-dom";
 
 export function getAuthToken() {
   const token = localStorage.getItem("token");
-
-  if (!token) return null;
-  return verifyToken(token);
+  return token ? verifyToken(token) : null;
 }
 
 export function verifyToken(token) {
@@ -12,12 +11,11 @@ export function verifyToken(token) {
 
   try {
     const decodedToken = jwtDecode(token);
-
     if (decodedToken) {
       verifiedToken = token;
     }
-  } catch (error) {
-    console.log("token has been tampered with");
+  } catch (err) {
+    console.log(err.message);
     localStorage.removeItem("token");
   }
 
@@ -26,4 +24,9 @@ export function verifyToken(token) {
 
 export function tokenLoader() {
   return getAuthToken();
+}
+
+export function checkAuthLoader() {
+  const token = getAuthToken();
+  return token ? null : redirect("/login");
 }

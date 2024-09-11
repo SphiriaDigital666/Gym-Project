@@ -16,7 +16,7 @@ import AdminPayments from "./pages/admin/AdminPayments";
 import Error from "./pages/Error";
 
 import { action as logoutAction } from "./pages/Logout";
-import { tokenLoader } from "./util/auth";
+import { tokenLoader, checkAuthLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +30,12 @@ const router = createBrowserRouter([
       { path: "trainers", element: <Trainers /> },
       { path: "contact", element: <Contact /> },
       { path: "login", element: <Login /> },
-      { path: "profile", element: <Profile /> },
-      { path: "registration", element: <Registration /> },
+      { path: "profile", element: <Profile />, loader: checkAuthLoader },
+      {
+        path: "registration",
+        element: <Registration />,
+        loader: checkAuthLoader,
+      },
       { path: "logout", action: logoutAction },
     ],
   },

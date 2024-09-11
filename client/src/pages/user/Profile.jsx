@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSubmit } from "react-router-dom";
+import { useRouteLoaderData, useSubmit } from "react-router-dom";
 
 import ImageSection from "../../components/ImageSection";
 import ProfileListItem from "../../components/ProfileListItem";
@@ -12,7 +12,7 @@ import editProfilePic from "../../assets/images/Profile/edit-profile-pic.png";
 import logout from "../../assets/images/Profile/logout.png";
 
 const Profile = () => {
-  const navigate = useNavigate();
+  const token = useRouteLoaderData("root");
   const submit = useSubmit();
 
   const [errorMessage, setErrorMessage] = useState(undefined);
@@ -44,8 +44,6 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     fetch("http://localhost:8080/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -61,8 +59,9 @@ const Profile = () => {
       })
       .then((data) => {
         if (!data.success) {
-          localStorage.removeItem("token");
-          return navigate("/login");
+          return setErrorMessage(
+            "We couldn't fetch your details, please try again later.",
+          );
         }
         setPersonalInfo((prev) => ({ ...prev, ...data.userInfo.personalInfo }));
         setEmergencyInfo((prev) => ({
@@ -79,12 +78,12 @@ const Profile = () => {
         }));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
         setErrorMessage(
           "We couldn't fetch your details, please try again later.",
         );
       });
-  }, [navigate]);
+  }, []);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
