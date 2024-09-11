@@ -15,6 +15,8 @@ import AdminProfile from "./pages/admin/AdminProfile";
 import AdminPayments from "./pages/admin/AdminPayments";
 import Error from "./pages/Error";
 
+import { action as logoutAction } from "./pages/Logout";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +29,7 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "profile", element: <Profile /> },
       { path: "registration", element: <Registration /> },
+      { path: "logout", action: logoutAction },
     ],
   },
   {

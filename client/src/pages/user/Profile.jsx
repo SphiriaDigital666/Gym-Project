@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSubmit } from "react-router-dom";
 
 import ImageSection from "../../components/ImageSection";
 import ProfileListItem from "../../components/ProfileListItem";
@@ -13,6 +13,8 @@ import logout from "../../assets/images/Profile/logout.png";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const submit = useSubmit();
+
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [personalInfo, setPersonalInfo] = useState({
     fullName: "",
@@ -89,8 +91,7 @@ const Profile = () => {
   };
 
   const logoutUser = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    submit(null, { action: "/logout", method: "POST" });
   };
 
   return (

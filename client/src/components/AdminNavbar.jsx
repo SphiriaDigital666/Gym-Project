@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Link, NavLink } from "react-router-dom";
+import { Form, Link, NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { FaUserGroup, FaUser } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
@@ -83,13 +83,12 @@ const AdminNavbar = () => {
             </li>
           ))}
         </ul>
-        <Link
-          to="/"
-          className="flex items-center text-[9px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[17px]"
-        >
-          <IoLogOutSharp className="text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px]" />
-          <span className="ps-[0.4em]">Logout</span>
-        </Link>
+        <Form action="/logout" method="POST" className="-translate-x-[18%]">
+          <button className="flex items-center text-[9px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[17px]">
+            <IoLogOutSharp className="text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px]" />
+            <span className="ps-[0.4em]">Logout</span>
+          </button>
+        </Form>
       </nav>
       <div
         className={`absolute left-5 top-5 sm:hidden ${isNavVisible ? "move-toggle-button" : "reset-toggle-button"}`}
