@@ -1,34 +1,15 @@
 import { useState, useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 const Root = () => {
   const path = useLocation().pathname;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    setIsLoggedIn(false);
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-
-        if (decoded) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.log("token has been tampered with");
-        localStorage.removeItem("token");
-      }
-    }
-  }, [path]);
 
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       <main className="bg-secondary text-white">
         <Outlet />
       </main>

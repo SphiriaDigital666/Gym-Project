@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useRouteLoaderData } from "react-router-dom";
 
 import profilePic from "../assets/images/Navbar/profile-pic.png";
 import "../assets/styles/Navbar.css";
@@ -19,7 +19,9 @@ const links = [
   },
 ];
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
+  const token = useRouteLoaderData("root");
+
   const [isToggled, setIsToggled] = useState(false);
   const handleClick = () => {
     setIsToggled((prev) => !prev);
@@ -50,12 +52,12 @@ const Navbar = ({ isLoggedIn }) => {
             </NavLink>
           ))}
           <NavLink
-            to={isLoggedIn ? "/profile" : "/login"}
+            to={token ? "/profile" : "/login"}
             className={({ isActive }) =>
-              `${isLoggedIn ? "" : "bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
+              `${token ? "" : "bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
             }
           >
-            {isLoggedIn ? (
+            {token ? (
               <img src={profilePic} alt="Profile" className="inline" />
             ) : (
               "Sign Up"
@@ -87,12 +89,12 @@ const Navbar = ({ isLoggedIn }) => {
             </NavLink>
           ))}
           <NavLink
-            to={isLoggedIn ? "/profile" : "/login"}
+            to={token ? "/profile" : "/login"}
             className={({ isActive }) =>
-              `mt-8 ${isLoggedIn ? "bg-transparent" : "w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
+              `mt-8 ${token ? "bg-transparent" : "w-fit bg-primary px-[0.6em] py-[0.3em] font-bold capitalize text-black"} ${isActive ? "" : "hover:opacity-70"}`
             }
           >
-            {isLoggedIn ? <img src={profilePic} alt="Profile" /> : "Sign Up"}
+            {token ? <img src={profilePic} alt="Profile" /> : "Sign Up"}
           </NavLink>
         </nav>
       </section>

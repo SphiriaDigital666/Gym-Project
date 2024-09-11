@@ -16,12 +16,15 @@ import AdminPayments from "./pages/admin/AdminPayments";
 import Error from "./pages/Error";
 
 import { action as logoutAction } from "./pages/Logout";
+import { tokenLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <Error />,
+    id: "root",
+    loader: tokenLoader,
     children: [
       { index: true, element: <Home /> },
       { path: "trainers", element: <Trainers /> },

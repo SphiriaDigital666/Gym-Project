@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { Link, useRouteLoaderData } from "react-router-dom";
 
 import PlanItem from "../../components/PlanItem";
 
@@ -57,24 +55,7 @@ const pricingData = [
 ];
 
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-
-        if (decoded) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.log("token has been tampered with");
-        localStorage.removeItem("token");
-        console.log(error.message);
-      }
-    }
-  }, []);
+  const token = useRouteLoaderData("root");
 
   return (
     <>
@@ -97,7 +78,7 @@ const Home = () => {
             <span className="z-10 text-center text-[30px] font-bold uppercase leading-none sm:text-[38px] md:text-[50px] lg:text-[70px] xl:text-[90px] 2xl:text-[106px]">
               Begin your <br /> fitness journey
             </span>
-            <Link to={isLoggedIn ? "/registration" : "/login"}>
+            <Link to={token ? "/registration" : "/login"}>
               <button className="mx-auto my-3 w-fit bg-primary px-[0.6em] py-[0.3em] text-[10px] font-extrabold uppercase text-black md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
                 Register now
               </button>
@@ -177,7 +158,7 @@ const Home = () => {
               title={title}
               price={price}
               features={features}
-              to={isLoggedIn ? "/registration" : "/login"}
+              to={token ? "/registration" : "/login"}
             />
           ))}
         </menu>
