@@ -1,47 +1,8 @@
-const jwt = require("jsonwebtoken");
-
 const User = require("../models/user");
 
 exports.getRegistration = (req, res, next) => {
-  // Check whether authorization headers are set
-  if (!req.headers.authorization) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Make sure authorization header is valid
-  const authFragments = req.headers.authorization.split(" ");
-  if (authFragments.length !== 2) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Verify the token
-  const authToken = authFragments[1];
-  let email;
-  try {
-    const decodedToken = jwt.verify(authToken, process.env.JWT_KEY);
-    email = decodedToken.email;
-    if (!email) {
-      throw new Error("User not found.");
-    }
-  } catch (err) {
-    // we'll send a custom error message if one is set, otherwise we'll send a default message.
-    if (err.message) {
-      return res.json({
-        success: false,
-        error: err.message,
-      });
-    }
-    res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
+  // Email will be appended to the req body by the verify-token middleware
+  const email = req.body.email;
 
   // We'll fetch data for the email extracted from the token
   User.findOne({ email: email })
@@ -53,6 +14,7 @@ exports.getRegistration = (req, res, next) => {
       const firstName = user.personalInfo.firstName;
       const lastName = user.personalInfo.lastName;
 
+      // We'll send the email, firstName and lastName as a response
       res.json({
         success: true,
         firstName: firstName,
@@ -61,6 +23,7 @@ exports.getRegistration = (req, res, next) => {
       });
     })
     .catch((err) => {
+      // we'll send a custom error message if one is set, otherwise we'll send a default message.
       console.log("/registration:GET ", err);
       if (err.message) {
         return res.json({
@@ -76,45 +39,8 @@ exports.getRegistration = (req, res, next) => {
 };
 
 exports.postRegistration = (req, res, next) => {
-  // Check whether authorization headers are set
-  if (!req.headers.authorization) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Make sure authorization header is valid
-  const authFragments = req.headers.authorization.split(" ");
-  if (authFragments.length !== 2) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Verify the token
-  const authToken = authFragments[1];
-  let email;
-  try {
-    const decodedToken = jwt.verify(authToken, process.env.JWT_KEY);
-    email = decodedToken.email;
-    if (!email) {
-      throw new Error("User not found.");
-    }
-  } catch (err) {
-    // we'll send a custom error message if one is set, otherwise we'll send a default message.
-    if (err.message) {
-      return res.json({
-        success: false,
-        error: err.message,
-      });
-    }
-    res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
+  // Email will be appended to the req body by the verify-token middleware
+  const email = req.body.email;
 
   // const newEmail = req.body.personalInfo.email;
   const personalInfo = {
@@ -158,45 +84,8 @@ exports.postRegistration = (req, res, next) => {
 };
 
 exports.getProfile = (req, res, next) => {
-  // Check whether authorization headers are set
-  if (!req.headers.authorization) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Make sure authorization header is valid
-  const authFragments = req.headers.authorization.split(" ");
-  if (authFragments.length !== 2) {
-    return res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
-
-  // Verify the token
-  const authToken = authFragments[1];
-  let email;
-  try {
-    const decodedToken = jwt.verify(authToken, process.env.JWT_KEY);
-    email = decodedToken.email;
-    if (!email) {
-      throw new Error("User not found.");
-    }
-  } catch (err) {
-    // we'll send a custom error message if one is set, otherwise we'll send a default message.
-    if (err.message) {
-      return res.json({
-        success: false,
-        error: err.message,
-      });
-    }
-    res.json({
-      success: false,
-      error: "Couldn't verify user",
-    });
-  }
+  // Email will be appended to the req body by the verify-token middleware
+  const email = req.body.email;
 
   // We'll fetch data for the email extracted from the token
   User.findOne({ email: email })
@@ -205,6 +94,8 @@ exports.getProfile = (req, res, next) => {
         throw new Error("Could not find user");
       }
 
+      // Users could view their profile data before filling the registration form
+      // In that case we'll send only the full name and email data as a response
       if (!user.personalInfo.tel) {
         return res.json({
           success: true,
@@ -220,6 +111,7 @@ exports.getProfile = (req, res, next) => {
         });
       }
 
+      // We have to restructure our data
       const personalInfo = {
         fullName: `${user.personalInfo.firstName} ${user.personalInfo.lastName}`,
         email: user.email,
@@ -260,6 +152,7 @@ exports.getProfile = (req, res, next) => {
       });
     })
     .catch((err) => {
+      // we'll send a custom error message if one is set, otherwise we'll send a default message.
       console.log("/profile:GET ", err);
       if (err.message) {
         return res.json({
