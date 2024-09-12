@@ -1,13 +1,20 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 const User = require("../models/user");
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  let user;
+  const errors = validationResult(req);
 
+  // We'll check for any validation errors and send a error response if validation errors are present
+  if (!errors.isEmpty()) {
+    return res.json({ success: false, error: errors.array()[0].msg });
+  }
+
+  let user;
   // Finding a user matching the given email
   User.findOne({ email: email })
     .then((fetchedUser) => {
@@ -53,22 +60,16 @@ exports.postRegister = (req, res, next) => {
   const lastName = req.body.lastName;
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
+  const errors = validationResult(req);
 
-  // Check whether password and confirmPassword are same
-  if (password !== confirmPassword) {
-    return res.json({ success: false, error: "Passwords must match" });
+  // We'll check for any validation errors and send a error response if validation errors are present
+  if (!errors.isEmpty()) {
+    return res.json({ success: false, error: errors.array()[0].msg });
   }
 
-  // Can't allow users to create new accounts with emails that are associated with existing accounts
-  User.findOne({ email: email })
-    .then((user) => {
-      if (user) {
-        throw new Error("Email already taken");
-      }
-      // Hash the user's password
-      return bcrypt.hash(password, 12);
-    })
+  // Hash the user's password
+  bcrypt
+    .hash(password, 12)
     .then((hashedPassword) => {
       // Create a new user with the input data and hashed password
       const newUser = new User({
