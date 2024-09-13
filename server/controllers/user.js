@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 const User = require("../models/user");
 
 exports.getRegistration = (req, res, next) => {
@@ -41,6 +43,13 @@ exports.getRegistration = (req, res, next) => {
 exports.postRegistration = (req, res, next) => {
   // Email will be appended to the req body by the verify-token middleware
   const email = req.body.email;
+  const errors = validationResult(req);
+
+  // We'll check for any validation errors and send a error response if validation errors are present
+  if (!errors.isEmpty()) {
+    return res.json({ success: false, error: errors.array()[0].msg });
+  }
+  return res.json({ success: false, error: "No errors" });
 
   // const newEmail = req.body.personalInfo.email;
   const personalInfo = {

@@ -27,7 +27,7 @@ const Registration = () => {
     DOB: "",
     gender: "male",
     addressOne: "",
-    addressTwo: "",
+    addressTwo: undefined,
     currentWeight: "",
     height: "",
     goalWeight: "",
@@ -85,7 +85,7 @@ const Registration = () => {
           "We couldn't fetch your details, please try again later.",
         );
       });
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     let months;
@@ -129,7 +129,6 @@ const Registration = () => {
     setMedicalInfo((prev) => ({ ...prev, [key]: value }));
   const handleMembershipInfoDataChange = (key, value) =>
     setMembershipInfo((prev) => ({ ...prev, [key]: value }));
-  const calculatePrice = () => {};
 
   const handleFormOneSubmit = (e) => {
     e.preventDefault();
@@ -146,6 +145,8 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
+    console.log(personalInfo);
+
     const token = localStorage.getItem("token");
     e.preventDefault();
     fetch("http://localhost:8080/registration", {
@@ -171,7 +172,8 @@ const Registration = () => {
       })
       .then((data) => {
         if (!data.success) {
-          setErrorMessage(data.error);
+          console.log(data.error);
+          // setErrorMessage(data.error);
           setIsFormThreeHidden(true);
           return setIsFormOneHidden(false);
         }
@@ -183,7 +185,7 @@ const Registration = () => {
           DOB: "",
           gender: "male",
           addressOne: "",
-          addressTwo: "",
+          addressTwo: undefined,
           currentWeight: "",
           height: "",
           goalWeight: "",
@@ -228,6 +230,7 @@ const Registration = () => {
         <form
           onSubmit={handleFormOneSubmit}
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${isFormOneHidden && "hidden"}`}
+          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Personal information
@@ -462,6 +465,7 @@ const Registration = () => {
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${
             isFormTwoHidden && "hidden"
           }`}
+          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Emergency Contact information
@@ -646,6 +650,7 @@ const Registration = () => {
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%] ${
             isFormThreeHidden ? "hidden" : ""
           }`}
+          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Membership information
