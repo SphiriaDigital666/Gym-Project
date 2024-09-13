@@ -151,8 +151,6 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
-    console.log(medicalInfo);
-
     const token = localStorage.getItem("token");
     e.preventDefault();
     fetch("http://localhost:8080/registration", {
@@ -178,8 +176,7 @@ const Registration = () => {
       })
       .then((data) => {
         if (!data.success) {
-          console.log(data.error);
-          // setErrorMessage(data.error);
+          setErrorMessage(data.error);
           setIsFormThreeHidden(true);
           return setIsFormOneHidden(false);
         }
@@ -236,7 +233,6 @@ const Registration = () => {
         <form
           onSubmit={handleFormOneSubmit}
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${isFormOneHidden && "hidden"}`}
-          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Personal information
@@ -471,7 +467,6 @@ const Registration = () => {
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[13.5%] sm:px-[12%] sm:py-[5%] ${
             isFormTwoHidden && "hidden"
           }`}
-          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Emergency Contact information
@@ -657,7 +652,6 @@ const Registration = () => {
           className={`-translate-y-[8%] bg-secondary px-4 py-2 sm:-translate-y-[19%] sm:px-[12%] sm:py-[5%] ${
             isFormThreeHidden ? "hidden" : ""
           }`}
-          noValidate
         >
           <h2 className="text-[13px] font-medium capitalize leading-[2em] text-primary sm:pb-[1em] sm:text-[18px] md:text-[23px] lg:text-[28px] xl:text-[33px] 2xl:text-[38px]">
             Membership information

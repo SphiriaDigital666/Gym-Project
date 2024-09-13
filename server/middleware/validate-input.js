@@ -63,7 +63,9 @@ function validateRadio(field, name) {
   return body(field, `${name} is invalid.`)
     .trim()
     .notEmpty()
-    .withMessage(`${name} cannot be empty.`);
+    .withMessage(`${name} cannot be empty.`)
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage(`${name} can only contain letters and spaces.`);
 }
 
 function validateTextArea(field, name) {

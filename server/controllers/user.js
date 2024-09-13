@@ -49,7 +49,6 @@ exports.postRegistration = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.json({ success: false, error: errors.array()[0].msg });
   }
-  return res.json({ success: false, error: "No errors" });
 
   // const newEmail = req.body.personalInfo.email;
   const personalInfo = {
