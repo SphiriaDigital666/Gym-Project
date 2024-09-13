@@ -41,7 +41,7 @@ const Registration = () => {
   });
   const [medicalInfo, setMedicalInfo] = useState({
     isAllergic: "",
-    allergyDetails: "",
+    allergyDetails: undefined,
   });
   const [membershipInfo, setMembershipInfo] = useState({
     membershipType: "",
@@ -121,6 +121,12 @@ const Registration = () => {
     setPrice(months * packageValue);
   }, [membershipInfo.membershipType, membershipInfo.planType]);
 
+  useEffect(() => {
+    medicalInfo.isAllergic === "true"
+      ? setMedicalInfo((prev) => ({ ...prev, allergyDetails: "" }))
+      : setMedicalInfo((prev) => ({ ...prev, allergyDetails: undefined }));
+  }, [medicalInfo.isAllergic]);
+
   const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));
   const handleEmergencyInfoDataChange = (key, value) =>
@@ -145,7 +151,7 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
-    console.log(emergencyInfo);
+    console.log(medicalInfo);
 
     const token = localStorage.getItem("token");
     e.preventDefault();
@@ -199,7 +205,7 @@ const Registration = () => {
         });
         setMedicalInfo({
           isAllergic: "",
-          allergyDetails: "",
+          allergyDetails: undefined,
         });
         setMembershipInfo({
           membershipType: "",
@@ -596,6 +602,7 @@ const Registration = () => {
                   id="allergy-details"
                   name="allergyDetails"
                   rows="4"
+                  value={medicalInfo.allergyDetails}
                   onChange={(e) =>
                     handleMedicalInfoDataChange(e.target.name, e.target.value)
                   }
@@ -607,7 +614,7 @@ const Registration = () => {
                   name="allergyDetails"
                   id="allergy-details"
                   rows="4"
-                  value=""
+                  value={undefined}
                   className="w-full origin-top border border-white bg-secondary px-[1ch] text-[8px] text-white outline-none sm:px-[2ch] sm:py-[1.3em] md:text-[10px] xl:text-[12px] 2xl:text-[14px]"
                   readOnly
                 ></textarea>

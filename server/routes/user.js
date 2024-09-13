@@ -12,6 +12,8 @@ const {
   validateDate,
   validateAddress,
   validateNum,
+  validateTextArea,
+  validateRadio,
 } = require("../middleware/validate-input");
 
 router.get(
@@ -48,6 +50,8 @@ router.post(
       "Emergency relationship"
     ),
     validateTel("emergencyInfo.emergencyTel", "Emergency phone number"),
+    isAllergic(),
+    validateTextArea("medicalInfo.allergyDetails", "Medical details"),
   ],
   userController.postRegistration
 );
@@ -75,5 +79,11 @@ function validateGoalWeight() {
       }
       return true;
     }
+  );
+}
+
+function isAllergic() {
+  return validateRadio("medicalInfo.isAllergic", "Medical condition").isBoolean(
+    { loose: false }
   );
 }

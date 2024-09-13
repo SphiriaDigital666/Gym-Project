@@ -59,6 +59,24 @@ function validateNum(field, name) {
     .isFloat({ min: 1, max: 300 });
 }
 
+function validateRadio(field, name) {
+  return body(field, `${name} is invalid.`)
+    .trim()
+    .notEmpty()
+    .withMessage(`${name} cannot be empty.`);
+}
+
+function validateTextArea(field, name) {
+  return body(field, `${name} cannot be empty.`)
+    .trim()
+    .optional()
+    .notEmpty()
+    .matches(/^[^<>&'"`\\\/]*$/)
+    .withMessage(`${name} contains invalid characters.`)
+    .isLength({ min: 3 })
+    .withMessage(`${name} must be more descriptive.`);
+}
+
 module.exports = {
   validateEmail,
   validatePassword,
@@ -67,4 +85,6 @@ module.exports = {
   validateDate,
   validateAddress,
   validateNum,
+  validateRadio,
+  validateTextArea,
 };
