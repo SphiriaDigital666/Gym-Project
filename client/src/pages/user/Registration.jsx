@@ -145,7 +145,7 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
-    console.log(personalInfo);
+    console.log(emergencyInfo);
 
     const token = localStorage.getItem("token");
     e.preventDefault();

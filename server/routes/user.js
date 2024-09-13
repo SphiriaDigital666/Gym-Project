@@ -35,6 +35,19 @@ router.post(
     validateNum("personalInfo.height", "Height"),
     validateGoalWeight(),
     validateAlphaString("personalInfo.currentJob", "Job title"),
+    validateAlphaString(
+      "emergencyInfo.emergencyFirstName",
+      "Emergency first name"
+    ),
+    validateAlphaString(
+      "emergencyInfo.emergencyLastName",
+      "Emergency last name"
+    ),
+    validateAlphaString(
+      "emergencyInfo.emergencyRelationship",
+      "Emergency relationship"
+    ),
+    validateTel("emergencyInfo.emergencyTel", "Emergency phone number"),
   ],
   userController.postRegistration
 );
