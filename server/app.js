@@ -1,3 +1,5 @@
+const path = require("path");
+
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(multer({ storage: fileStorage }).single("profileImage"));
 app.use(express.json());
 app.use(authRoutes);

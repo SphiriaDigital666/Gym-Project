@@ -127,6 +127,7 @@ exports.getProfile = (req, res, next) => {
 
       // We have to restructure our data
       const personalInfo = {
+        profilePic: user.personalInfo.profilePic,
         fullName: `${user.personalInfo.firstName} ${user.personalInfo.lastName}`,
         email: user.email,
         tel: user.personalInfo.tel,

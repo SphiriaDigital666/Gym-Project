@@ -7,7 +7,7 @@ import ProfileListTitle from "../../components/ProfileListTitle";
 
 import bgMobile from "../../assets/images/Profile/bg-mobile.png";
 import bgDesktop from "../../assets/images/Profile/bg-desktop.png";
-import profilePic from "../../assets/images/Profile/profile-pic.png";
+import dummyProfilePic from "../../assets/images/Profile/profile-pic.png";
 import editProfilePic from "../../assets/images/Profile/edit-profile-pic.png";
 import logout from "../../assets/images/Profile/logout.png";
 
@@ -17,6 +17,7 @@ const Profile = () => {
 
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [personalInfo, setPersonalInfo] = useState({
+    profilePic: null,
     fullName: "",
     email: "",
     tel: "not specified",
@@ -83,7 +84,7 @@ const Profile = () => {
           "We couldn't fetch your details, please try again later.",
         );
       });
-  }, []);
+  }, [token]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -102,9 +103,13 @@ const Profile = () => {
           <div className="flex h-[40px] w-full items-end justify-center sm:h-[55px] md:h-[70px] lg:h-[85px] xl:h-[100px] 2xl:h-[115px]">
             <div className="relative w-[80px] rounded-full border-2 border-primary sm:w-[110px] md:w-[140px] lg:w-[170px] xl:w-[200px] 2xl:w-[230px]">
               <img
-                src={profilePic}
+                src={
+                  personalInfo.profilePic
+                    ? `http://localhost:8080/${personalInfo.profilePic}`
+                    : dummyProfilePic
+                }
                 alt="Profile pic"
-                className="w-full p-[6%]"
+                className="w-full rounded-full p-[6%]"
               />
               <button className="absolute bottom-0 right-0 w-[22px] rounded-full bg-[#D9D9D9CC] sm:bottom-[5%] sm:w-[24px] md:right-[5%] md:w-[26px] lg:bottom-[7%] lg:w-[28px] xl:right-[7%] xl:w-[30px] 2xl:bottom-[8%] 2xl:w-[32px]">
                 <img
