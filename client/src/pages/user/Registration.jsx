@@ -19,6 +19,7 @@ const Registration = () => {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [price, setPrice] = useState(0);
 
+  const [profileImage, setProfileImage] = useState(null);
   const [personalInfo, setPersonalInfo] = useState({
     firstName: "",
     lastName: "",
@@ -127,6 +128,9 @@ const Registration = () => {
       : setMedicalInfo((prev) => ({ ...prev, allergyDetails: undefined }));
   }, [medicalInfo.isAllergic]);
 
+  const handleProfileImageChange = (uploadedImage) => {
+    setProfileImage(uploadedImage);
+  };
   const handlePersonalInfoDataChange = (key, value) =>
     setPersonalInfo((prev) => ({ ...prev, [key]: value }));
   const handleEmergencyInfoDataChange = (key, value) =>
@@ -151,20 +155,28 @@ const Registration = () => {
     setIsFormTwoHidden(true);
   };
   const handleFormThreeSubmit = (e) => {
-    const token = localStorage.getItem("token");
     e.preventDefault();
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("profileImage", profileImage);
+    formData.append("personalInfo", JSON.stringify(personalInfo));
+    formData.append("emergencyInfo", JSON.stringify(emergencyInfo));
+    formData.append("medicalInfo", JSON.stringify(medicalInfo));
+    formData.append("membershipInfo", JSON.stringify(membershipInfo));
+
     fetch("http://localhost:8080/registration", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        personalInfo: personalInfo,
-        emergencyInfo: emergencyInfo,
-        medicalInfo: medicalInfo,
-        membershipInfo: membershipInfo,
-      }),
+      body: formData,
+      // body: JSON.stringify({
+      //   personalInfo: personalInfo,
+      //   emergencyInfo: emergencyInfo,
+      //   medicalInfo: medicalInfo,
+      //   membershipInfo: membershipInfo,
+      // }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -248,9 +260,11 @@ const Registration = () => {
             </label>
             <input
               type="file"
-              name="profile-image"
+              name="profileImage"
               id="profile-image"
-              className="hidden text-[8px]"
+              onChange={(e) => handleProfileImageChange(e.target.files[0])}
+              className="text-[8px]"
+              required
             />
           </fieldset>
 

@@ -2,7 +2,9 @@ const express = require("express");
 const { body } = require("express-validator");
 
 const router = express.Router();
+
 const verifyTokenMiddleware = require("../middleware/verify-token");
+const parseRegistrationDataMiddleware = require("../middleware/parse-registration-data");
 const userController = require("../controllers/user");
 const { calDOB, calDate } = require("../util/calculate-date");
 const {
@@ -25,6 +27,7 @@ router.get(
 router.post(
   "/registration",
   verifyTokenMiddleware,
+  parseRegistrationDataMiddleware,
   [
     validateAlphaString("personalInfo.firstName", "First name"),
     validateAlphaString("personalInfo.lastName", "Last name"),

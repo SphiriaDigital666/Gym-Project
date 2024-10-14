@@ -44,15 +44,21 @@ exports.postRegistration = (req, res, next) => {
   // Email will be appended to the req body by the verify-token middleware
   const email = req.body.email;
   const errors = validationResult(req);
+  const image = req.file;
 
-  // We'll check for any validation errors and send a error response if validation errors are present
+  // We'll check if an image is available and send an error response if it is not available
+  if (!image) {
+    return res.json({ success: false, error: "Selected file is not image." });
+  }
+
+  // We'll check for any validation errors and send an error response if validation errors are present
   if (!errors.isEmpty()) {
     return res.json({ success: false, error: errors.array()[0].msg });
   }
 
   // const newEmail = req.body.personalInfo.email;
   const personalInfo = {
-    profilePic: "",
+    profilePic: req.file.path,
     firstName: req.body.personalInfo.firstName,
     lastName: req.body.personalInfo.lastName,
     tel: req.body.personalInfo.tel,

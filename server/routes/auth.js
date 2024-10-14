@@ -22,7 +22,6 @@ router.post(
     validateAlphaString("lastName", "Last name"),
     validateRegisterEmail(),
     validateRegisterPassword(),
-    validateAlphaString("gender", "Gender"),
   ],
   authController.postRegister
 );
