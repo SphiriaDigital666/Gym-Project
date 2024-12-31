@@ -1,0 +1,249 @@
+import { useState } from "react";
+
+import ImageSection from "../../components/ImageSection";
+import Input from "../../components/Input";
+
+import bgMobile from "../../assets/images/Contact/bg-mobile.png";
+import bgDesktop from "../../assets/images/Contact/bg-desktop.png";
+import location from "../../assets/images/Contact/location.png";
+import phone from "../../assets/images/Contact/phone.png";
+import email from "../../assets/images/Contact/email.png";
+import clock from "../../assets/images/Contact/clock.png";
+
+const data = [
+  {
+    img: location,
+    h3: "Location",
+    p: ["132, My Street, Kingston,", "New York 12401."],
+  },
+  {
+    img: phone,
+    h3: "Phone",
+    p: ["+1 123 56 56"],
+  },
+  {
+    img: email,
+    h3: "Email",
+    p: ["FitCore@gmail.com"],
+  },
+  {
+    img: clock,
+    h3: "Working Hours",
+    p: ["Monday - Sunday ", " 09:00 am - 09:00 pm"],
+  },
+];
+
+const Contact = () => {
+  const [contactData, setContactData] = useState({
+    name: "",
+    tel: "",
+    email: "",
+    message: "",
+  });
+  const [message, setMessage] = useState({
+    type: undefined,
+    content: "",
+  });
+
+  const handleContactDataChange = (key, value) => {
+    setContactData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        ...contactData,
+        access_key: "851ce789-4331-4af9-ba34-311f82cd79ef",
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setMessage({
+            type: "error",
+            content: "Operation failed. Please try again later.",
+          });
+          throw new Error("Could not fetch response");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.success) {
+          return setMessage({
+            type: "error",
+            content: "Operation failed. Please try again later.",
+          });
+        }
+        setContactData({
+          name: "",
+          tel: "",
+          email: "",
+          message: "",
+        });
+        setMessage({
+          type: "success",
+          content: "Message sent successfully!",
+        });
+      })
+      .catch((err) => {
+        setMessage({
+          type: "error",
+          content: "Operation failed. Please try again later.",
+        });
+        console.log(err);
+      });
+  };
+
+  return (
+    <>
+      <ImageSection
+        alt="An athlete"
+        bgMobile={bgMobile}
+        bgDesktop={bgDesktop}
+      />
+      {/* -------- -------- CONTACT INFO SECTION -------- -------- */}
+      <section className="px-[10vw] text-center md:px-[5vw]">
+        <h2 className="mt-[1.2em] text-[12px] font-medium sm:text-[18px] md:text-[22px] lg:text-[30px] xl:text-[36px] 2xl:text-[42px]">
+          Connect with us for fitness support
+        </h2>
+        <article className="mx-auto mb-[6%] mt-[4.5%] flex max-w-screen-xl justify-between md:w-[85%] xl:w-[80%]">
+          {data.map(({ img, h3, p }, i) => (
+            <figure key={i} className="flex flex-col items-center">
+              <img
+                src={img}
+                alt="Location"
+                className="w-6 sm:w-8 lg:w-9 xl:w-12 2xl:w-16"
+              />
+              <figcaption>
+                <h3 className="mb-[0.3em] mt-[0.8em] text-[9px] font-semibold sm:text-[15px] md:text-[16px] lg:text-[19px] xl:text-[21px] 2xl:text-[24px]">
+                  {h3}
+                </h3>
+                <p className="text-[7px] sm:text-[9px] md:text-[10px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
+                  {p[0]}{" "}
+                  {p[1] && (
+                    <>
+                      <br />
+                      {p[1]}
+                    </>
+                  )}
+                </p>
+              </figcaption>
+            </figure>
+          ))}
+        </article>
+      </section>
+      {/* -------- -------- LOCATION SECTION -------- -------- */}
+      {/* <section className="h-[200px] sm:h-[450px]">
+        <iframe
+          title="location"
+          width="100%"
+          height="100%"
+          src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(FitCore)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        >
+          <a href="https://www.gps.ie/">gps trackers</a>
+        </iframe>
+      </section> */}
+      {/* -------- -------- CONTACT FORM SECTION -------- -------- */}
+      <section className="bg-[url('./assets/images/Contact/form-bg.png')] bg-cover bg-center px-[10vw] md:px-[5vw]">
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex w-fit flex-col py-[8%] text-center sm:pb-[12%] sm:pt-[6%] sm:text-left"
+        >
+          <h2 className="mb-[1em] font-semibold leading-tight sm:mb-[0.8em] sm:text-[28px] md:text-[33px] lg:text-[36px] xl:text-[46px] 2xl:text-[55px]">
+            Have questions? <br /> Get in touch!
+          </h2>
+          {message.type && (
+            <p
+              className={`mb-[1em] mt-[0.8em] text-[8px] font-semibold sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px] ${message.type === "success" ? "text-green-300" : ""} ${message.type === "error" ? "text-red-300" : ""} ${message.type === "progress" ? "animate-pulse text-white" : ""}`}
+            >
+              {message.content}
+            </p>
+          )}
+          <Input
+            type="text"
+            name="name"
+            value={contactData.name}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
+            onChange={(e) => {
+              handleContactDataChange(e.target.name, e.target.value);
+            }}
+            placeholder="Name"
+          />
+          <Input
+            type="tel"
+            name="tel"
+            value={contactData.tel}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
+            onChange={(e) => {
+              handleContactDataChange(e.target.name, e.target.value);
+            }}
+            placeholder="Number"
+          />
+          <Input
+            type="email"
+            name="email"
+            value={contactData.email}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
+            onChange={(e) => {
+              handleContactDataChange(e.target.name, e.target.value);
+            }}
+            placeholder="Email"
+          />
+          <textarea
+            name="message"
+            rows="4"
+            placeholder="Message"
+            value={contactData.message}
+            onClick={() => {
+              setMessage({
+                type: undefined,
+                content: "",
+              });
+            }}
+            onChange={(e) => {
+              handleContactDataChange(e.target.name, e.target.value);
+            }}
+            className="mb-[0.7em] w-[28ch] px-[0.8em] py-[0.4em] text-[12px] text-black placeholder:capitalize sm:w-full sm:px-[1em] sm:py-[0.6em] lg:text-[13px] 2xl:text-[14px]"
+            required
+          ></textarea>
+          <button
+            onClick={() =>
+              setMessage({
+                type: "progress",
+                content: "Operation in progress",
+              })
+            }
+            className="mt-[0.8em] self-center bg-primary px-[0.6em] py-[0.3em] text-[13px] font-extrabold uppercase text-black lg:text-[14px] 2xl:text-[15px]"
+          >
+            Send
+          </button>
+        </form>
+      </section>
+    </>
+  );
+};
+
+export default Contact;

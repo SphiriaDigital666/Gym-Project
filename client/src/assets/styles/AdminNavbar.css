@@ -1,0 +1,58 @@
+@keyframes slide-in-admin-nav {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes reset-admin-nav {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+    display: none;
+  }
+}
+
+@keyframes move-toggle-button {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(117px);
+  }
+}
+
+@keyframes reset-toggle-button {
+  from {
+    transform: translateX(117px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-in-admin-nav {
+  animation: slide-in-admin-nav 1s forwards;
+}
+
+.reset-admin-nav {
+  animation: reset-admin-nav 1s forwards;
+}
+
+.move-toggle-button {
+  animation: move-toggle-button 1s forwards;
+}
+
+.reset-toggle-button {
+  animation: reset-toggle-button 1s forwards;
+}
+
+@media (min-width: 640px) {
+  .reset-admin-nav {
+    animation: none;
+  }
+}
